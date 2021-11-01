@@ -14,6 +14,7 @@ typedef  unsigned char        uchar;
 char*       yCMD_version            (void);
 char        yCMD_init               (void);
 char        yCMD_wrap               (void);
+char*       yCMD__unit              (char *a_question, int n);
 
 
 
