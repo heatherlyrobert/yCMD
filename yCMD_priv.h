@@ -36,8 +36,8 @@
 
 #define     P_VERMAJOR  "2.--, clean, improve, and expand"
 #define     P_VERMINOR  "2.0-, separated into independent library"
-#define     P_VERNUM    "2.0c"
-#define     P_VERTXT    "yCMD_load and basic yCMD_exec transferred, updated, tightened, and unit tested"
+#define     P_VERNUM    "2.0d"
+#define     P_VERTXT    "fixed terms and initial load issues"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -57,8 +57,8 @@
 #include    <yKEYS.h>             /* heatherly vi/vim key handling            */
 #include    <yMACRO.h>            /* heatherly vi/vim macro processing        */
 #include    <ySRC.h>              /* heatherly vi/vim source editing          */
+#include    <yVIEW.h>             /* heatherly vi/vim view management         */
 #include    <yCOLOR.h>            /* heatherly opengl color handling          */
-#include    <yX11.h>              /* heatherly xlib/glx setup/teardown        */
 
 
 #define     CMDS_BASE        'b'  /* fully standard in base           */
@@ -72,23 +72,24 @@ struct  cCMDS {
    uchar       name        [LEN_LABEL];     /* full command name              */
    uchar       abbr        [LEN_TERSE];     /* abbreviation of name           */
    union {
-      char        (*v    ) (void);
-      char        (*c    ) (char);
-      char        (*cc   ) (char , char );
-      char        (*i    ) (int);
-      char        (*ii   ) (int, int);
-      char        (*iii  ) (int, int, int);
-      char        (*isss ) (int, char*, char*, char*);
-      char        (*is   ) (int  , char*);
-      char        (*s    ) (char*);
-      char        (*ss   ) (char*, char*);
-      char        (*si   ) (char*, int  );
-      char        (*sii  ) (char*, int, int);
-      char        (*css  ) (char, char*, char*);
-      char        (*cs   ) (char, char*);
-      char        (*f    ) (float);
+      char        (*v     ) (void);
+      char        (*c     ) (char);
+      char        (*cc    ) (char , char );
+      char        (*i     ) (int);
+      char        (*ii    ) (int, int);
+      char        (*iii   ) (int, int, int);
+      char        (*isss  ) (int, char*, char*, char*);
+      char        (*is    ) (int  , char*);
+      char        (*s     ) (char*);
+      char        (*ss    ) (char*, char*);
+      char        (*si    ) (char*, int  );
+      char        (*sii   ) (char*, int, int);
+      char        (*css   ) (char, char*, char*);
+      char        (*cs    ) (char, char*);
+      char        (*f     ) (float);
       char        (*cciiii) (char, char, int, int, int, int);
-      char        (*iiii)  (int, int, int, int);
+      char        (*iiii  ) (int, int, int, int);
+      char        (*ci    ) (char, int);
    } f;
    uchar       terms       [LEN_TERSE];     /* type of terms/args             */
    uchar       desc        [LEN_DESC];      /* descriptive label              */
@@ -158,8 +159,7 @@ char*       ycmd_terms_show         (char n);
 /*---(new)------------------*/
 char        ycmd_terms              (uchar *a_terms);
 /*---(exec)-----------------*/
-char        ycmd_parse              (uchar *a_str);
-char        ycmd_launch             (tLINK *a_link);
+char        ycmd_launch             (tLINK *a_link, char *a_rc);
 /*---(done)-----------------*/
 
 
@@ -175,6 +175,7 @@ int         ycmd_load_count         (void);
 char        ycmd_load_by_name       (uchar *a_name, tCMDS **r_cmds);
 /*---(memory)---------------*/
 char        ycmd_new_cmd            (uchar a_menu, uchar *a_name, uchar *a_abbr, uchar *a_terms, void *a_func, uchar *a_desc, tCMDS **r_cmds);
+char        ycmd_load               (void);
 char        ycmd_new_link           (tCMDS *a_cmd, tLINK **r_link);
 
 
@@ -186,8 +187,15 @@ int         ycmd_exec_count         (void);
 char        ycmd_check_dup          (uchar a_base, uchar *a_name, uchar *a_abbr);
 char        ycmd_exec_by_name       (uchar *a_name, tLINK **r_link);
 char        ycmd_exec_by_index      (short a_index, tLINK **r_link);
+char        ycmd_parse              (uchar *a_str);
 
 
+
+/*===[[ yCMD_exec.c ]]========================================================*/
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char        ycmd__unit_parrot       (char a_value);
+char        ycmd__unit_length       (char *a_string);
+char        ycmd__unit_tester       (char a_mode, char a_value);
 
 
 

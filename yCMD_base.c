@@ -56,28 +56,28 @@ yCMD_init               (void)
    char        rc          =    0;
    int         i           =    0;
    /*---(header)-------------------------*/
-   DEBUG_PROG   yLOG_enter   (__FUNCTION__);
+   DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
    --rce;  if (!yMODE_check_prep  (MODE_COMMAND)) {
-      DEBUG_PROG   yLOG_note    ("status is not ready for init");
-      DEBUG_PROG   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_CMDS   yLOG_note    ("status is not ready for init");
+      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(terms)--------------------------*/
-   DEBUG_PROG   yLOG_note    ("initialize term system");
+   DEBUG_CMDS   yLOG_note    ("initialize term system");
    ycmd_terms_init ();
-   /*---(base/load)----------------------*/
-   DEBUG_PROG   yLOG_note    ("initialize base/load system");
-   ycmd_load_init ();
    /*---(commands)-----------------------*/
-   DEBUG_PROG   yLOG_note    ("initialize command system");
+   DEBUG_CMDS   yLOG_note    ("initialize command system");
    ycmd_exec_purge ();
-   /*> ycmds__load  ();                                                               <*/
+   /*---(base/load)----------------------*/
+   DEBUG_CMDS   yLOG_note    ("initialize base/load system");
+   ycmd_load_init ();
+   ycmd_load      ();
    /*---(update status)------------------*/
-   DEBUG_PROG   yLOG_note    ("update status");
+   DEBUG_CMDS   yLOG_note    ("update status");
    yMODE_init_set   (MODE_COMMAND, NULL, ySRC_mode);
    /*---(complete)-----------------------*/
-   DEBUG_PROG   yLOG_exit    (__FUNCTION__);
+   DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -163,7 +163,7 @@ ycmd__unit_loud         (void)
    yURG_name  ("ymode"        , YURG_ON);
    yURG_name  ("mode"         , YURG_ON);
    yURG_name  ("cmds"         , YURG_ON);
-   DEBUG_MODE  yLOG_info     ("yCMD"      , yCMD_version   ());
+   DEBUG_CMDS  yLOG_info     ("yCMD"      , yCMD_version   ());
    yMODE_init (MODE_MAP);
    yMODE_handler_setup ();
    yCMD_init ();
@@ -173,11 +173,37 @@ ycmd__unit_loud         (void)
 char       /*----: stop logging ----------------------------------------------*/
 ycmd__unit_end          (void)
 {
-   DEBUG_MODE  yLOG_enter   (__FUNCTION__);
+   DEBUG_CMDS  yLOG_enter   (__FUNCTION__);
    yCMD_wrap    ();
-   DEBUG_MODE  yLOG_exit    (__FUNCTION__);
+   DEBUG_CMDS  yLOG_exit    (__FUNCTION__);
    yLOGS_end    ();
    return 0;
+}
+
+char
+ycmd__unit_parrot       (char a_value)
+{
+   return a_value;
+}
+
+char
+ycmd__unit_length       (char *a_string)
+{
+   if (a_string == NULL)  return -1;
+   return strlen (a_string);
+}
+
+char
+ycmd__unit_tester       (char a_mode, char a_value)
+{
+   switch (a_mode) {
+   case '+' : a_value += 1;  break;
+   case '5' : a_value += 5;  break;
+   case '-' : a_value -= 1;  break;
+   case '0' : a_value  = 0;  break;
+   case '9' : a_value -= 9;  break;
+   }
+   return a_value;
 }
 
 char           unit_answer [LEN_FULL];

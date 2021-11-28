@@ -8,33 +8,37 @@
 
 
 static const tCMDS  s_bases     [] = {
-   /*> { 'b', 'f', "new"             , ""    , yvikeys_file_new          , ""     , "purge all contents and set-up a new, blank file"             },   <* 
-    *> { 'b', 'f', "quit"            , "q"   , yvikeys_cmds__quit        , ""     , "quit current file (if no changes), exit if the only file"    },   <* 
-    *> { 'b', 'f', "quitall"         , "qa"  , yvikeys_cmds__quit        , ""     , "quit all files (if no changes), and exit"                    },   <* 
-    *> { 'b', 'f', "writequit"       , "wq"  , yvikeys_cmds__writequit   , ""     , ""                                                            },   <* 
-    *> { 'b', 'f', "writequitall"    , "wqa" , yvikeys_cmds__writequit   , ""     , ""                                                            },   <* 
+   /*---(yKEYS)-------------------------------------------------------------------------------------------------------------------------------*/
+   { 'b', 'f', "quit"            , "q"   , yKEYS_quit                , "-"    , "quit current file (if no changes), exit if the only file"    },
+   { 'b', 'f', "quitall"         , "qa"  , yKEYS_quit                , "-"    , "quit all files (if no changes), and exit"                    },
+   { 'b', 'f', "writequit"       , "wq"  , yKEYS_writequit           , "-"    , ""                                                            },
+   { 'b', 'f', "writequitall"    , "wqa" , yKEYS_writequitall        , "-"    , ""                                                            },
+   /*> { 'b', 'f', "write"           , "w"   , yvikeys_file_writer       , "-"    , "write/update the current file"                               },   <* 
+    *> { 'b', 'f', "writeas"         , "was" , yvikeys_file_writeas      , "s"    , "write/update the current file"                               },   <* 
+    *> { 'b', 'f', "read"            , ""    , yvikeys_file_reader       , "-"    , "clear existing contents and open/read new file"              },   <* 
+    *> { 'b', 'f', "edit"            , "e"   , yvikeys_file_reader       , "-"    , "clear existing contents and open/read new file"              },   <* 
+    *> { 'b', 'f', "new"             , ""    , yvikeys_file_new          , "-"    , "purge all contents and set-up a new, blank file"             },   <* 
     *> { 'b', 'e', "dump"            , ""    , yvikeys_dump_exec         , "s"    , "dump a specified data table to the clipboard in flat text"   },   <* 
     *> { 'b', 'c', "menu"            , ""    , yvikeys_menu_reanchor     , "c"    , "change the menu anchoring"                                   },   <* 
     *> { 'b', 'f', "cd"              , ""    , yvikeys_file_loc          , "a"    , "set the default directory for file reading and writing"      },   <* 
     *> { 'b', 'f', "file"            , ""    , yvikeys_file_name         , "a"    , "rename a file for reading and writing"                       },   <* 
-    *> { 'b', 'f', "browse"          , ""    , yvikeys_file_browse       , "a"    , "find existing file name for reading and writing"             },   <* 
-    *> { 'b', 'f', "control"         , ""    , yvikeys_vers_control      , ""     , "turn version control ON for current file"                    },   <* 
-    *> { 'b', 'f', "nocontrol"       , ""    , yvikeys_vers_nocontrol    , ""     , "turn version control OFF for current file"                   },   <* 
+    *> { 'b', 'f', "browse"          , ""    , yvikeys_file_browse       , "a"    , "find existing file name for reading and writing"             },   <*/
+   /*> { 'b', 'f', "control"         , ""    , yvikeys_vers_control      , "-"    , "turn version control ON for current file"                    },   <* 
+    *> { 'b', 'f', "nocontrol"       , ""    , yvikeys_vers_nocontrol    , "-"    , "turn version control OFF for current file"                   },   <* 
     *> { 'b', 'f', "vernum"          , ""    , yvikeys_vers_version      , "s"    , "set a specific file version ([0-9A-Z].[0-9A-Z][a-z])"        },   <* 
     *> { 'b', 'f', "vertxt"          , ""    , yvikeys_vers_vertxt       , "a"    , "set a file version description"                              },   <* 
-    *> { 'b', 'f', "major"           , ""    , yvikeys_vers_bump_major   , ""     , "increment the version number by a MAJOR version"             },   <* 
-    *> { 'b', 'f', "minor"           , ""    , yvikeys_vers_bump_minor   , ""     , "increment the version number by a MINOR version"             },   <* 
-    *> { 'b', 'f', "bump"            , ""    , yvikeys_vers_bump_inc     , ""     , "increment the version number by a INC version"               },   <* 
-    *> { 'b', 'f', "write"           , "w"   , yvikeys_file_writer       , ""     , "write/update the current file"                               },   <* 
-    *> { 'b', 'f', "writeas"         , "was" , yvikeys_file_writeas      , "s"    , "write/update the current file"                               },   <* 
-    *> { 'b', 'f', "read"            , ""    , yvikeys_file_reader       , ""     , "clear existing contents and open/read new file"              },   <* 
-    *> { 'b', 'f', "edit"            , "e"   , yvikeys_file_reader       , ""     , "clear existing contents and open/read new file"              },   <* 
-    *> { 'b', 'c', "delay"           , ""    , yvikeys_loop_set          , "ss"   , "adjust the main loop wait and screen update timings"         },   <* 
-    *> { 'b', 'c', "play"            , ""    , yvikeys_prog_play         , ""     , "cause the progress to play"                                  },   <* 
-    *> { 'b', 'c', "stop"            , ""    , yvikeys_prog_stop         , ""     , "cause the progress to stop"                                  },   <* 
+    *> { 'b', 'f', "major"           , ""    , yvikeys_vers_bump_major   , "-"    , "increment the version number by a MAJOR version"             },   <* 
+    *> { 'b', 'f', "minor"           , ""    , yvikeys_vers_bump_minor   , "-"    , "increment the version number by a MINOR version"             },   <* 
+    *> { 'b', 'f', "bump"            , ""    , yvikeys_vers_bump_inc     , "-"    , "increment the version number by a INC version"               },   <*/
+   /*> { 'b', 'c', "delay"           , ""    , yvikeys_loop_set          , "ss"   , "adjust the main loop wait and screen update timings"         },   <* 
+    *> { 'b', 'c', "play"            , ""    , yvikeys_prog_play         , "-"    , "cause the progress to play"                                  },   <* 
+    *> { 'b', 'c', "stop"            , ""    , yvikeys_prog_stop         , "-"    , "cause the progress to stop"                                  },   <* 
     *> { 'b', 'c', "p_scale"         , ""    , yvikeys_scale_prog        , "s"    , "adjust the progress scale"                                   },   <* 
     *> { 'b', 'c', "p_speed"         , ""    , yvikeys_speed_prog        , "s"    , "adjust the progress speed"                                   },   <* 
     *> { 'b', 'e', "mark"            , ""    , yvikeys_mark_direct       , "s"    , ""                                                            },   <*/
+   /*> { 'b', 'v', "help"            , ""    , yvikeys_help              , "c"    , ""                                                            },   <* 
+    *> { 'b', 'c', "sreg"            , ""    , yvikeys_sreg__direct      , "a"    , "direct definition of source registers"                       },   <*/
+   /*---(yMACRO)------------------------------------------------------------------------------------------------------------------------------*/
    { 'b', 'r', "macro"           , ""    , yMACRO_direct             , "a"    , "direct definition of a keyboard macro"                       },
    { 'b', 'r', "script"          , "@"   , yMACRO_script_start       , "s"    , "execution of macro script from a file"                       },
    { 'b', 'r', "playback"        , ""    , yMACRO_script_playback    , "s"    , "execution of macro script from a file"                       },
@@ -46,64 +50,64 @@ static const tCMDS  s_bases     [] = {
    { 'b', 'r', "dupdate"         , ""    , yMACRO_dupdate            , "c"    , ""                                                            },
    { 'b', 'r', "flatten"         , ""    , yMACRO_flatten            , "cc"   , ""                                                            },
    { 'b', 'r', "install"         , ""    , yMACRO_install            , "c"    , ""                                                            },
-   /*> { 'b', 'v', "help"            , ""    , yvikeys_help              , "c"    , ""                                                            },   <* 
-    *> { 'b', 'c', "sreg"            , ""    , yvikeys_sreg__direct      , "a"    , "direct definition of source registers"                       },   <*/
+   /*---(yCOLOR)------------------------------------------------------------------------------------------------------------------------------*/
    { 'b', 'v', "palette"         , ""    , yCOLOR_palette            , "isss" , ""                                                            },
    { 'b', 'v', "wheel"           , ""    , yCOLOR_wheel              , "s"    , ""                                                            },
    { 'b', 'v', "degree"          , "deg" , yCOLOR_deg                , "i"    , ""                                                            },
    { 'b', 'v', "harmony"         , "har" , yCOLOR_harm               , "s"    , ""                                                            },
    { 'b', 'v', "value"           , "val" , yCOLOR_val                , "s"    , ""                                                            },
    { 'b', 'v', "saturation"      , "sat" , yCOLOR_sat                , "s"    , ""                                                            },
-   /*> { 'b', 'v', "title"           , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "version"         , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "buffer"          , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "formula"         , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "nav"             , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "xaxis"           , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "yaxis"           , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "alt"             , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "details"         , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "ribbon"          , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "progress"        , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "modes"           , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "status"          , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "command"         , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "keys"            , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "cursor"          , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "grid"            , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "edges"           , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "guides"          , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "overlay"         , "o"   , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "layers"          , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "notes"           , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "mask"            , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "color"           , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "back"            , ""    , yvikeys_sizes_switch      , "Cs"   , "allow control of individual sceen elements"                  },   <* 
-    *> { 'b', 'v', "menu_loc"        , ""    , yvikeys_sizes_menu_loc    , "c"    , "change where the menu appears in the main window"            },   <* 
-    *> { 'b', 'v', "float_loc"       , ""    , yvikeys_sizes_float_loc   , "c"    , "change where the float appears in the main window"           },   <* 
-    *> { 'b', 'v', "hist_loc"        , ""    , yvikeys_sizes_hist_loc    , "c"    , "change where the history appears in the main window"         },   <* 
-    *> { 'b', 'v', "gridoff"         , ""    , VIEW__grid_offset         , "iii"  , ""                                                            },   <* 
-    *> { 'b', 'v', "gridsize"        , ""    , VIEW__grid_size           , "iii"  , ""                                                            },   <* 
-    *> { 'b', 'v', "layout"          , ""    , yvikeys_sizes_layout      , "s"    , ""                                                            },   <* 
-    *> { 'b', 'v', "layer"           , "l"   , yvikeys_layer_action      , "ss"   , ""                                                            },   <* 
-    *> { 'b', 'i', "note"            , ""    , yvikeys_note              , "a"    , "manage screen annotations (notes)"                           },   <*/
+   /*---(yVIEW)-------------------------------------------------------------------------------------------------------------------------------*/
+   { 'b', 'v', "layout"          , ""    , yVIEW_layout              , "s"    , ""                                                            },
+   { 'b', 'v', "title"           , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "version"         , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "buffer"          , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "formula"         , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "nav"             , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "xaxis"           , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "yaxis"           , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "alt"             , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "details"         , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "ribbon"          , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "progress"        , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "modes"           , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "status"          , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "command"         , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "keys"            , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "cursor"          , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "grid"            , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "edges"           , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "guides"          , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "overlay"         , "o"   , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "layers"          , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "notes"           , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "mask"            , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "color"           , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "back"            , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "float_loc"       , ""    , yVIEW_loc_float           , "c"    , "change where the float appears in the main window"           },
+   { 'b', 'v', "hist_loc"        , ""    , yVIEW_loc_history         , "c"    , "change where the history appears in the main window"         },
+   { 'b', 'v', "menu_loc"        , ""    , yVIEW_loc_menu            , "c"    , "change where the menu appears in the main window"            },
+   /*> { 'b', 'v', "gridoff"         , ""    , VIEW__grid_offset         , "iii"  , ""                                                            },   <*/
+   /*> { 'b', 'v', "gridsize"        , ""    , VIEW__grid_size           , "iii"  , ""                                                            },   <*/
+   /*> { 'b', 'v', "layer"           , "l"   , yvikeys_layer_action      , "ss"   , ""                                                            },   <*/
+   /*> { 'b', 'i', "note"            , ""    , yvikeys_note              , "a"    , "manage screen annotations (notes)"                           },   <*/
    /*---(yX11)--------------------------------------------------------------------------------------------------------------------------------*/
-   { 'b', 'x', "winreset"        , ""    , yX11_reset                , ""     , "move between window manager desktops"                        },
-   { 'b', 'x', "desktop"         , ""    , yX11_desk_goto            , "c"    , "move between window manager desktops"                        },
-   { 'b', 'x', "term"            , ""    , yX11_yvikeys_term         , "a"    , "create a terminal session"                                   },
-   { 'b', 'x', "winname"         , ""    , yX11_yvikeys_name         , "a"    , "name an existing window"                                     },
-   { 'b', 'x', "sendkeys"        , ""    , yX11_yvikeys_sendkeys     , "a"    , "sendkeys to a specific window"                               },
-   { 'b', 'x', "blitzkeys"       , ""    , yX11_yvikeys_blitzkeys    , "a"    , "sendkeys to a specific window"                               },
-   { 'b', 'x', "winexact"        , ""    , yX11_yvikeys_winexact     , "cciiii", "sendkeys to a specific window"                              },
-   { 'b', 'x', "winplace"        , ""    , yX11_yvikeys_winplace     , "a"    , "sendkeys to a specific window"                               },
-   { 'b', 'x', "winbring"        , ""    , yX11_yvikeys_winbring     , "c"    , "sendkeys to a specific window"                               },
-   { 'b', 'x', "wingoto"         , ""    , yX11_yvikeys_wingoto      , "c"    , "sendkeys to a specific window"                               },
-   { 'b', 'x', "winsend"         , ""    , yX11_yvikeys_winsend      , "cc"   , "sendkeys to a specific window"                               },
-   { 'b', 'x', "wintake"         , ""    , yX11_yvikeys_wintake      , "cc"   , "sendkeys to a specific window"                               },
-   { 'b', 'x', "mydesk"          , ""    , yX11_yvikeys_mydesk       , "c"    , "change position of current window"                          },
-   { 'b', 'x', "myhome"          , ""    , yX11_yvikeys_myhome       , "ii"   , "change position of current window"                          },
-   { 'b', 'x', "mysize"          , ""    , yX11_yvikeys_mysize       , "ii"   , "change size of current window"                              },
-   { 'b', 'x', "mysizer"         , ""    , yX11_yvikeys_mysizer      , "iiii" , "reset all desktops, windows, and shortcuts"                  },
+   /*> { 'b', 'x', "winreset"        , ""    , yX11_reset                , ""     , "move between window manager desktops"                        },   <* 
+    *> { 'b', 'x', "desktop"         , ""    , yX11_desk_goto            , "c"    , "move between window manager desktops"                        },   <* 
+    *> { 'b', 'x', "term"            , ""    , yX11_yvikeys_term         , "a"    , "create a terminal session"                                   },   <* 
+    *> { 'b', 'x', "winname"         , ""    , yX11_yvikeys_name         , "a"    , "name an existing window"                                     },   <* 
+    *> { 'b', 'x', "sendkeys"        , ""    , yX11_yvikeys_sendkeys     , "a"    , "sendkeys to a specific window"                               },   <* 
+    *> { 'b', 'x', "blitzkeys"       , ""    , yX11_yvikeys_blitzkeys    , "a"    , "sendkeys to a specific window"                               },   <* 
+    *> { 'b', 'x', "winexact"        , ""    , yX11_yvikeys_winexact     , "cciiii", "sendkeys to a specific window"                              },   <* 
+    *> { 'b', 'x', "winplace"        , ""    , yX11_yvikeys_winplace     , "a"    , "sendkeys to a specific window"                               },   <* 
+    *> { 'b', 'x', "winbring"        , ""    , yX11_yvikeys_winbring     , "c"    , "sendkeys to a specific window"                               },   <* 
+    *> { 'b', 'x', "wingoto"         , ""    , yX11_yvikeys_wingoto      , "c"    , "sendkeys to a specific window"                               },   <* 
+    *> { 'b', 'x', "winsend"         , ""    , yX11_yvikeys_winsend      , "cc"   , "sendkeys to a specific window"                               },   <* 
+    *> { 'b', 'x', "wintake"         , ""    , yX11_yvikeys_wintake      , "cc"   , "sendkeys to a specific window"                               },   <* 
+    *> { 'b', 'x', "mydesk"          , ""    , yX11_yvikeys_mydesk       , "c"    , "change position of current window"                          },    <* 
+    *> { 'b', 'x', "myhome"          , ""    , yX11_yvikeys_myhome       , "ii"   , "change position of current window"                          },    <* 
+    *> { 'b', 'x', "mysize"          , ""    , yX11_yvikeys_mysize       , "ii"   , "change size of current window"                              },    <* 
+    *> { 'b', 'x', "mysizer"         , ""    , yX11_yvikeys_mysizer      , "iiii" , "reset all desktops, windows, and shortcuts"                  },   <*/
    /*---(done)--------------------------------------------------------------------------------------------------------------------------------*/
    { 0  , 0  , "-"               , ""    , NULL                      , ""     , ""                                                            },
 };
@@ -393,6 +397,7 @@ ycmd_new_link           (tCMDS *a_cmds, tLINK **r_link)
    char        x_tries     =    0;
    int         x_len       =    0;
    tLINK      *x_curr      = NULL;
+   int         x_terms     =   -1;
    /*---(header)-------------------------*/
    DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
@@ -409,6 +414,31 @@ ycmd_new_link           (tCMDS *a_cmds, tLINK **r_link)
       return rce;
    }
    DEBUG_CMDS   yLOG_info    ("a_cmds"    , a_cmds);
+   /*---(check values)-------------------*/
+   DEBUG_CMDS   yLOG_point   ("name"      , a_cmds->name);
+   --rce;  if (a_cmds->name  == NULL) {
+      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_CMDS   yLOG_info    ("name"      , a_cmds->name);
+   DEBUG_CMDS   yLOG_point   ("abbr"      , a_cmds->abbr);
+   --rce;  if (a_cmds->abbr  == NULL) {
+      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_CMDS   yLOG_info    ("abbr"      , a_cmds->abbr);
+   DEBUG_CMDS   yLOG_point   ("terms"     , a_cmds->terms);
+   --rce;  if (a_cmds->terms == NULL) {
+      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_CMDS   yLOG_info    ("terms"     , a_cmds->terms);
+   x_terms = ycmd_terms (a_cmds->terms);
+   DEBUG_CMDS   yLOG_value   ("x_terms"   , x_terms);
+   --rce;  if (x_terms < 0) {
+      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
    /*---(duplicate)----------------------*/
    /*> DEBUG_CMDS   yLOG_point   ("->name"    , a_cmds->name);                        <*/
    /*> DEBUG_CMDS   yLOG_info    ("->name"    , a_cmds->name);                        <*/
@@ -436,7 +466,7 @@ ycmd_new_link           (tCMDS *a_cmds, tLINK **r_link)
    DEBUG_CMDS   yLOG_note    ("populate");
    x_new->data     = a_cmds;
    x_new->nlen     = strlen (a_cmds->name);
-   x_new->nterms   = ycmd_terms (a_cmds->terms);
+   x_new->nterms   = x_terms;
    x_new->alen     = strlen (a_cmds->abbr);
    x_new->m_next   = NULL;
    /*---(tie to master list)-------------*/
@@ -478,26 +508,45 @@ ycmd_load_name          (char *a_name)
    char        rce         =  -10;
    int         i           =    0;
    char        rc          =    0;
-   tLINK      *x_curr      = NULL;
+   tCMDS      *x_cmds      = NULL;
+   tLINK      *x_link      = NULL;
    /*---(header)-------------------------*/
    DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
-   /*---(defence)------------------------*/
-   rc = ycmd_check_name (a_name, 'n', NULL);
+   /*---(find)---------------------------*/
+   rc = ycmd_load_by_name (a_name, &x_cmds);
+   DEBUG_CMDS   yLOG_value   ("by_name"   , rc);
    --rce;  if (rc < 0) {
       DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
+   /*---(link)---------------------------*/
+   rc = ycmd_new_link (s_bases + i, &x_link);
+   DEBUG_CMDS   yLOG_value   ("link"      , rc);
+   --rce;  if (rc < 0) {
+      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
+   return 1;
+}
+
+char
+ycmd_load      (void)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         i           =    0;
+   char        rc          =    0;
+   tLINK      *x_curr      = NULL;
+   /*---(header)-------------------------*/
+   DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
    /*---(load)---------------------------*/
-   for (i = 0; i < MAX_BASE; ++i) {
+   for (i = 0; i < myCMD.nbase; ++i) {
       /*---(check for end)---------------*/
+      if (s_bases [i].base     == 0)                   break;
       if (s_bases [i].name [0] == NULL)                break;
       if (strcmp (s_bases [i].name, "-") == 0)         break;
-      /*---(filter)----------------------*/
-      if (s_bases [i].name [0] != a_name [0])          continue;
-      if (strcmp (s_bases [i].name, a_name) != 0)      continue;
       rc = ycmd_new_link (s_bases + i, &x_curr);
-      DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
-      return 1;
    }
    /*---(complete)-----------------------*/
    DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
@@ -505,23 +554,40 @@ ycmd_load_name          (char *a_name)
 }
 
 char
-ycmd_load      (void)
+yCMD_add             (uchar a_menu, uchar *a_name, uchar *a_abbr, uchar *a_terms, void *a_func, uchar *a_desc)
 {
-   /*> /+---(locals)-----------+-----+-----+-+/                                       <* 
-    *> int         i           =    0;                                                <* 
-    *> char        rc          =    0;                                                <* 
-    *> /+---(header)-------------------------+/                                       <* 
-    *> DEBUG_CMDS   yLOG_enter   (__FUNCTION__);                                      <* 
-    *> /+---(load)---------------------------+/                                       <* 
-    *> for (i = 0; i < MAX_CMDS; ++i) {                                               <* 
-    *>    /+---(check for end)---------------+/                                       <* 
-    *>    if (s_bases [i].name [0] == NULL)                break;                      <* 
-    *>    if (strcmp (s_bases [i].name, "-") == 0)         break;                      <* 
-    *>    rc = ycmd_new_link (s_bases + i);                                            <* 
-    *> }                                                                              <* 
-    *> /+---(complete)-----------------------+/                                       <* 
-    *> DEBUG_CMDS   yLOG_exit    (__FUNCTION__);                                      <* 
-    *> return 0;                                                                      <*/
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   char        rc          =    0;
+   tCMDS      *x_cmds      = NULL;
+   tLINK      *x_link      = NULL;
+   /*---(header)-------------------------*/
+   DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
+   /*---(defense)------------------------*/
+   DEBUG_CMDS   yLOG_note    ("before status check");
+   --rce;  if (!yMODE_operational (MODE_COMMAND)) {
+      DEBUG_CMDS   yLOG_note    ("can not configure until operational");
+      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   DEBUG_CMDS   yLOG_note    ("after status check");
+   /*---(call add)-----------------------*/
+   rc = ycmd_new_cmd    (a_menu, a_name, a_abbr, a_terms, a_func, a_desc, &x_cmds);
+   DEBUG_CMDS   yLOG_value   ("newcmd"    , rc);
+   --rce;  if (rc < 0) {
+      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(call add)-----------------------*/
+   rc = ycmd_new_link   (x_cmds, &x_link);
+   DEBUG_CMDS   yLOG_value   ("newcmd"    , rc);
+   --rce;  if (rc < 0) {
+      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      return rce;
+   }
+   /*---(complete)-----------------------*/
+   DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
+   return 1;
 }
 
 
