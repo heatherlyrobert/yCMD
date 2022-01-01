@@ -56,28 +56,30 @@ yCMD_init               (void)
    char        rc          =    0;
    int         i           =    0;
    /*---(header)-------------------------*/
-   DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
+   DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
    --rce;  if (!yMODE_check_prep  (MODE_COMMAND)) {
-      DEBUG_CMDS   yLOG_note    ("status is not ready for init");
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_note    ("status is not ready for init");
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(terms)--------------------------*/
-   DEBUG_CMDS   yLOG_note    ("initialize term system");
+   DEBUG_YCMD   yLOG_note    ("initialize term system");
    ycmd_terms_init ();
    /*---(commands)-----------------------*/
-   DEBUG_CMDS   yLOG_note    ("initialize command system");
+   DEBUG_YCMD   yLOG_note    ("initialize command system");
    ycmd_exec_purge ();
    /*---(base/load)----------------------*/
-   DEBUG_CMDS   yLOG_note    ("initialize base/load system");
+   DEBUG_YCMD   yLOG_note    ("initialize base/load system");
    ycmd_load_init ();
    ycmd_load      ();
+   /*---(other updates)------------------*/
+   rc = yFILE_dump_add ("cmds"      , "inventory of commands"       , ycmd_dump          );
    /*---(update status)------------------*/
-   DEBUG_CMDS   yLOG_note    ("update status");
+   DEBUG_YCMD   yLOG_note    ("update status");
    yMODE_init_set   (MODE_COMMAND, NULL, ySRC_mode);
    /*---(complete)-----------------------*/
-   DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
+   DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -90,13 +92,13 @@ yCMD_init               (void)
  *>    tLINK      *x_curr      = NULL;                                                                 <* 
  *>    tLINK      *x_next      = NULL;                                                                 <* 
  *>    /+---(header)-------------------------+/                                                        <* 
- *>    DEBUG_CMDS   yLOG_enter   (__FUNCTION__);                                                       <* 
+ *>    DEBUG_YCMD   yLOG_enter   (__FUNCTION__);                                                       <* 
  *>    /+---(defense)------------------------+/                                                        <* 
  *>    x_curr = g_head;                                                                                <* 
  *>    /+---(clear)--------------------------+/                                                        <* 
- *>    DEBUG_CMDS   yLOG_value   ("g_ncmd"    , g_ncmd);                                               <* 
+ *>    DEBUG_YCMD   yLOG_value   ("g_ncmd"    , g_ncmd);                                               <* 
  *>    while (x_curr != NULL) {                                                                        <* 
- *>       DEBUG_CMDS   yLOG_complex ("focus"     , "%c %s", x_curr->data->base, x_curr->data->name);   <* 
+ *>       DEBUG_YCMD   yLOG_complex ("focus"     , "%c %s", x_curr->data->base, x_curr->data->name);   <* 
  *>       x_next = x_curr->m_next;                                                                     <* 
  *>       if (x_curr->data->base != CMDS_BASE) {                                                       <* 
  *>          free (x_curr->data);                                                                      <* 
@@ -107,11 +109,11 @@ yCMD_init               (void)
  *>       x_curr = x_next;                                                                             <* 
  *>    }                                                                                               <* 
  *>    /+---(initialize pointers)------------+/                                                        <* 
- *>    DEBUG_CMDS   yLOG_note    ("pointers");                                                         <* 
+ *>    DEBUG_YCMD   yLOG_note    ("pointers");                                                         <* 
  *>    g_head   = NULL;                                                                                <* 
  *>    g_found  = NULL;                                                                                <* 
  *>    /+---(initialize counters)------------+/                                                        <* 
- *>    DEBUG_CMDS   yLOG_note    ("counters");                                                         <* 
+ *>    DEBUG_YCMD   yLOG_note    ("counters");                                                         <* 
  *>    g_ncmd   = 0;                                                                                   <* 
  *>    g_nbase  = 0;                                                                                   <* 
  *>    /+---(fields)-------------------------+/                                                        <* 
@@ -119,7 +121,7 @@ yCMD_init               (void)
  *>    s_nfield  = 0;                                                                                  <* 
  *>    myCMD.p_all [0] = '\0';                                                                         <* 
  *>    /+---(complete)-----------------------+/                                                        <* 
- *>    DEBUG_CMDS   yLOG_exit    (__FUNCTION__);                                                       <* 
+ *>    DEBUG_YCMD   yLOG_exit    (__FUNCTION__);                                                       <* 
  *>    return 0;                                                                                       <* 
  *> }                                                                                                  <*/
 
@@ -143,7 +145,7 @@ char       /*----: set up program urgents/debugging --------------------------*/
 ycmd__unit_quiet        (void)
 {
    int         x_narg       = 1;
-   char       *x_args [20]  = {"ySRC_unit" };
+   char       *x_args [20]  = {"yCMD_unit" };
    yMODE_init (MODE_MAP);
    yMODE_handler_setup ();
    yCMD_init ();
@@ -154,16 +156,15 @@ char       /*----: set up program urgents/debugging --------------------------*/
 ycmd__unit_loud         (void)
 {
    int         x_narg       = 1;
-   char       *x_args [20]  = {"ySRC_unit" };
+   char       *x_args [20]  = {"yCMD_unit" };
    yURG_logger   (x_narg, x_args);
    yURG_urgs     (x_narg, x_args);
    yURG_name  ("kitchen"      , YURG_ON);
-   yURG_name  ("edit"         , YURG_ON);
    yURG_name  ("ystr"         , YURG_ON);
    yURG_name  ("ymode"        , YURG_ON);
-   yURG_name  ("mode"         , YURG_ON);
-   yURG_name  ("cmds"         , YURG_ON);
-   DEBUG_CMDS  yLOG_info     ("yCMD"      , yCMD_version   ());
+   yURG_name  ("ycmd"         , YURG_ON);
+   yURG_name  ("ysrc"         , YURG_ON);
+   DEBUG_YCMD  yLOG_info     ("yCMD"      , yCMD_version   ());
    yMODE_init (MODE_MAP);
    yMODE_handler_setup ();
    yCMD_init ();
@@ -173,9 +174,9 @@ ycmd__unit_loud         (void)
 char       /*----: stop logging ----------------------------------------------*/
 ycmd__unit_end          (void)
 {
-   DEBUG_CMDS  yLOG_enter   (__FUNCTION__);
+   DEBUG_YCMD  yLOG_enter   (__FUNCTION__);
    yCMD_wrap    ();
-   DEBUG_CMDS  yLOG_exit    (__FUNCTION__);
+   DEBUG_YCMD  yLOG_exit    (__FUNCTION__);
    yLOGS_end    ();
    return 0;
 }

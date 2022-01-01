@@ -36,8 +36,8 @@
 
 #define     P_VERMAJOR  "2.--, clean, improve, and expand"
 #define     P_VERMINOR  "2.0-, separated into independent library"
-#define     P_VERNUM    "2.0e"
-#define     P_VERTXT    "fixes and tweaks to support gyges"
+#define     P_VERNUM    "2.0ef
+#define     P_VERTXT    "fixed :! external execution trouble"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -53,11 +53,12 @@
 #include    <yURG.h>              /* heatherly urgent processing              */
 #include    <yLOG.h>              /* heatherly program logging                */
 #include    <ySTR.h>              /* heatherly string processing              */
-#include    <yMODE.h>             /* heatherly vi/vim mode control            */
-#include    <yKEYS.h>             /* heatherly vi/vim key handling            */
-#include    <yMACRO.h>            /* heatherly vi/vim macro processing        */
-#include    <ySRC.h>              /* heatherly vi/vim source editing          */
-#include    <yVIEW.h>             /* heatherly vi/vim view management         */
+#include    <yMODE.h>             /* heatherly vi-keys mode control           */
+#include    <yKEYS.h>             /* heatherly vi-keys key handling           */
+#include    <yMACRO.h>            /* heatherly vi-keys macro processing       */
+#include    <ySRC.h>              /* heatherly vi-keys source editing         */
+#include    <yVIEW.h>             /* heatherly vi-keys view management        */
+#include    <yFILE.h>             /* heatherly vi-keys content file handling  */
 #include    <yCOLOR.h>            /* heatherly opengl color handling          */
 
 
@@ -198,6 +199,7 @@ char        ycmd__unit_length       (char *a_string);
 char        ycmd__unit_tester       (char a_mode, char a_value);
 
 
+char        ycmd_dump               (FILE *f);
 
 
 

@@ -13,23 +13,6 @@ static const tCMDS  s_bases     [] = {
    { 'b', 'f', "quitall"         , "qa"  , yKEYS_quit                , "-"    , "quit all files (if no changes), and exit"                    },
    { 'b', 'f', "writequit"       , "wq"  , yKEYS_writequit           , "-"    , ""                                                            },
    { 'b', 'f', "writequitall"    , "wqa" , yKEYS_writequitall        , "-"    , ""                                                            },
-   /*> { 'b', 'f', "write"           , "w"   , yvikeys_file_writer       , "-"    , "write/update the current file"                               },   <* 
-    *> { 'b', 'f', "writeas"         , "was" , yvikeys_file_writeas      , "s"    , "write/update the current file"                               },   <* 
-    *> { 'b', 'f', "read"            , ""    , yvikeys_file_reader       , "-"    , "clear existing contents and open/read new file"              },   <* 
-    *> { 'b', 'f', "edit"            , "e"   , yvikeys_file_reader       , "-"    , "clear existing contents and open/read new file"              },   <* 
-    *> { 'b', 'f', "new"             , ""    , yvikeys_file_new          , "-"    , "purge all contents and set-up a new, blank file"             },   <* 
-    *> { 'b', 'e', "dump"            , ""    , yvikeys_dump_exec         , "s"    , "dump a specified data table to the clipboard in flat text"   },   <* 
-    *> { 'b', 'c', "menu"            , ""    , yvikeys_menu_reanchor     , "c"    , "change the menu anchoring"                                   },   <* 
-    *> { 'b', 'f', "cd"              , ""    , yvikeys_file_loc          , "a"    , "set the default directory for file reading and writing"      },   <* 
-    *> { 'b', 'f', "file"            , ""    , yvikeys_file_name         , "a"    , "rename a file for reading and writing"                       },   <* 
-    *> { 'b', 'f', "browse"          , ""    , yvikeys_file_browse       , "a"    , "find existing file name for reading and writing"             },   <*/
-   /*> { 'b', 'f', "control"         , ""    , yvikeys_vers_control      , "-"    , "turn version control ON for current file"                    },   <* 
-    *> { 'b', 'f', "nocontrol"       , ""    , yvikeys_vers_nocontrol    , "-"    , "turn version control OFF for current file"                   },   <* 
-    *> { 'b', 'f', "vernum"          , ""    , yvikeys_vers_version      , "s"    , "set a specific file version ([0-9A-Z].[0-9A-Z][a-z])"        },   <* 
-    *> { 'b', 'f', "vertxt"          , ""    , yvikeys_vers_vertxt       , "a"    , "set a file version description"                              },   <* 
-    *> { 'b', 'f', "major"           , ""    , yvikeys_vers_bump_major   , "-"    , "increment the version number by a MAJOR version"             },   <* 
-    *> { 'b', 'f', "minor"           , ""    , yvikeys_vers_bump_minor   , "-"    , "increment the version number by a MINOR version"             },   <* 
-    *> { 'b', 'f', "bump"            , ""    , yvikeys_vers_bump_inc     , "-"    , "increment the version number by a INC version"               },   <*/
    /*> { 'b', 'c', "delay"           , ""    , yvikeys_loop_set          , "ss"   , "adjust the main loop wait and screen update timings"         },   <* 
     *> { 'b', 'c', "play"            , ""    , yvikeys_prog_play         , "-"    , "cause the progress to play"                                  },   <* 
     *> { 'b', 'c', "stop"            , ""    , yvikeys_prog_stop         , "-"    , "cause the progress to stop"                                  },   <* 
@@ -38,6 +21,28 @@ static const tCMDS  s_bases     [] = {
     *> { 'b', 'e', "mark"            , ""    , yvikeys_mark_direct       , "s"    , ""                                                            },   <*/
    /*> { 'b', 'v', "help"            , ""    , yvikeys_help              , "c"    , ""                                                            },   <* 
     *> { 'b', 'c', "sreg"            , ""    , yvikeys_sreg__direct      , "a"    , "direct definition of source registers"                       },   <*/
+   /*---(yFILE)-------------------------------------------------------------------------------------------------------------------------------*/
+   /*---(naming)------------*/
+   { 'b', 'f', "cd"              , ""    , yFILE_loc                 , "a"    , "set the default directory for file reading and writing"      },
+   { 'b', 'f', "file"            , ""    , yFILE_name                , "a"    , "rename a file for reading and writing"                       },
+   { 'b', 'f', "browse"          , ""    , yFILE_browse              , "a"    , "find existing file name for reading and writing"             },
+   /*---(versioning)--------*/
+   { 'b', 'f', "control"         , ""    , yFILE_control             , "-"    , "turn version control ON for current file"                    },
+   { 'b', 'f', "nocontrol"       , ""    , yFILE_nocontrol           , "-"    , "turn version control OFF for current file"                   },
+   { 'b', 'f', "vernum"          , ""    , yFILE_vernum              , "s"    , "set a specific file version ([0-9A-Z].[0-9A-Z][a-z])"        },
+   { 'b', 'f', "vertxt"          , ""    , yFILE_vertxt              , "a"    , "set a file version description"                              },
+   { 'b', 'f', "major"           , ""    , yFILE_major               , "-"    , "increment the version number by a MAJOR version"             },
+   { 'b', 'f', "minor"           , ""    , yFILE_minor               , "-"    , "increment the version number by a MINOR version"             },
+   { 'b', 'f', "bump"            , ""    , yFILE_inc                 , "-"    , "increment the version number by a INC version"               },
+   /*---(io)----------------*/
+   { 'b', 'f', "write"           , "w"   , yFILE_writer              , "-"    , "write/update the current file"                               },
+   { 'b', 'f', "writeas"         , "was" , yFILE_writeas             , "s"    , "write/update the current file"                               },
+   { 'b', 'f', "read"            , ""    , yFILE_reader              , "-"    , "clear existing contents and open/read new file"              },
+   { 'b', 'f', "edit"            , "e"   , yFILE_reader              , "-"    , "clear existing contents and open/read new file"              },
+   { 'b', 'f', "new"             , ""    , yFILE_new                 , "-"    , "purge all contents and set-up a new, blank file"             },
+   /*---(special)-----------*/
+   { 'b', 'e', "dump"            , ""    , yFILE_dump                , "s"    , "dump a specified data table to the clipboard in flat text"   },
+   /*> { 'b', 'c', "menu"            , ""    , yvikeys_menu_reanchor     , "c"    , "change the menu anchoring"                                   },   <*/
    /*---(yMACRO)------------------------------------------------------------------------------------------------------------------------------*/
    { 'b', 'r', "macro"           , ""    , yMACRO_direct             , "a"    , "direct definition of a keyboard macro"                       },
    { 'b', 'r', "script"          , "@"   , yMACRO_script_start       , "s"    , "execution of macro script from a file"                       },
@@ -146,50 +151,50 @@ ycmd_check_name         (uchar *a_name, char a_type, int *r_len)
    int         x_len       =    0;
    int         i           =    0;
    /*---(header)-------------------------*/
-   DEBUG_CMDS   yLOG_senter  (__FUNCTION__);
+   DEBUG_YCMD   yLOG_senter  (__FUNCTION__);
    /*---(prepare)------------------------*/
    if (r_len != NULL)  *r_len = 0;
    /*---(defense)------------------------*/
-   DEBUG_CMDS   yLOG_spoint  (a_name);
+   DEBUG_YCMD   yLOG_spoint  (a_name);
    --rce;  if (a_name == NULL) {
-      DEBUG_CMDS   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_CMDS   yLOG_schar   (a_type);
+   DEBUG_YCMD   yLOG_schar   (a_type);
    --rce;  if (a_type == 0 || strchr ("na", a_type) == NULL) {
-      DEBUG_CMDS   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    x_len = strlen (a_name);
-   DEBUG_CMDS   yLOG_sint    (x_len);
+   DEBUG_YCMD   yLOG_sint    (x_len);
    --rce;  if (a_type == 'n' && (x_len < 1 || x_len > 18)) {
-      DEBUG_CMDS   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    --rce;  if (a_type == 'a' && x_len <= 0) {
-      DEBUG_CMDS   yLOG_sexit   (__FUNCTION__);
+      DEBUG_YCMD   yLOG_sexit   (__FUNCTION__);
       return 0;
    }
    --rce;  if (a_type == 'a' && x_len > 4) {
-      DEBUG_CMDS   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    /*---(check characters)---------------*/
    --rce;  if (strchr (YSTR_UPLOW, a_name [0]) == NULL) {
-      DEBUG_CMDS   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    for (i = 0; i < x_len; ++i) {
       if (strchr (YSTR_ALNUM "@", a_name [i]) != NULL)  continue;
-      DEBUG_CMDS   yLOG_snote   ("bad character in name");
-      DEBUG_CMDS   yLOG_sint    (i);
-      DEBUG_CMDS   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_snote   ("bad character in name");
+      DEBUG_YCMD   yLOG_sint    (i);
+      DEBUG_YCMD   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
    /*---(output)-------------------------*/
    if (r_len != NULL)  *r_len = x_len;
    /*---(complete)-----------------------*/
-   DEBUG_CMDS   yLOG_sexit   (__FUNCTION__);
+   DEBUG_YCMD   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 
@@ -204,35 +209,35 @@ ycmd_check_dup          (uchar a_base, uchar *a_name, uchar *a_abbr)
    /*---(name)---------------------------*/
    if (a_base != CMDS_BASE) {
       rc = ycmd_load_by_name (a_name, &x_exist);
-      DEBUG_CMDS   yLOG_value   ("base name" , rc);
+      DEBUG_YCMD   yLOG_value   ("base name" , rc);
       --rce;  if (rc > 0) {
-         DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+         DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
          return rce;
       }
    }
    rc = ycmd_exec_by_name (a_name, &x_link);
-   DEBUG_CMDS   yLOG_value   ("base name" , rc);
+   DEBUG_YCMD   yLOG_value   ("base name" , rc);
    --rce;  if (rc > 0) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(abbreviation)-------------------*/
    if (a_base != CMDS_BASE) {
       rc = ycmd_load_by_name (a_abbr, &x_exist);
-      DEBUG_CMDS   yLOG_value   ("base abbr" , rc);
+      DEBUG_YCMD   yLOG_value   ("base abbr" , rc);
       --rce;  if (rc > 0) {
-         DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+         DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
          return rce;
       }
    }
    rc = ycmd_exec_by_name (a_abbr, &x_link);
-   DEBUG_CMDS   yLOG_value   ("base abbr" , rc);
+   DEBUG_YCMD   yLOG_value   ("base abbr" , rc);
    --rce;  if (rc > 0) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(complete)-----------------------*/
-   DEBUG_CMDS   yLOG_sexit   (__FUNCTION__);
+   DEBUG_YCMD   yLOG_sexit   (__FUNCTION__);
    return 0;
 }
 
@@ -253,40 +258,40 @@ ycmd_load_by_name       (uchar *a_name, tCMDS **r_cmds)
    int         x_len       =    0;
    int         i           =    0;
    /*---(header)-------------------------*/
-   DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
+   DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_CMDS   yLOG_point   ("r_cmds"    , r_cmds);
+   DEBUG_YCMD   yLOG_point   ("r_cmds"    , r_cmds);
    --rce;  if (r_cmds == NULL) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    *r_cmds = NULL;
-   DEBUG_CMDS   yLOG_point   ("a_name"    , a_name);
+   DEBUG_YCMD   yLOG_point   ("a_name"    , a_name);
    --rce;  if (a_name == NULL || a_name [0] == '\0') {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_CMDS   yLOG_info    ("a_name"    , a_name);
+   DEBUG_YCMD   yLOG_info    ("a_name"    , a_name);
    /*---(walk structure)-----------------*/
    --rce;  for (i = 0; i < myCMD.nbase; ++i) {
-      DEBUG_CMDS   yLOG_complex ("checking"  , "%c %-5.5s %s", s_bases [i].base, s_bases [i].abbr, s_bases [i].name);
+      DEBUG_YCMD   yLOG_complex ("checking"  , "%c %-5.5s %s", s_bases [i].base, s_bases [i].abbr, s_bases [i].name);
       if (strcmp (s_bases [i].abbr, a_name) == 0) {
-         DEBUG_CMDS   yLOG_note    ("found by abbreviation");
+         DEBUG_YCMD   yLOG_note    ("found by abbreviation");
          *r_cmds = s_bases + i;
-         DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
+         DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
          return 1;
       }
       if (strcmp (s_bases [i].name, a_name) == 0) {
-         DEBUG_CMDS   yLOG_note    ("found by full name");
+         DEBUG_YCMD   yLOG_note    ("found by full name");
          *r_cmds = s_bases + i;
-         DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
+         DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
          return 1;
       }
       /*---(next)------------------------*/
    }
-   DEBUG_CMDS   yLOG_note    ("never found");
+   DEBUG_YCMD   yLOG_note    ("never found");
    /*---(complete)-----------------------*/
-   DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+   DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
    return rce;
 }
 
@@ -309,52 +314,52 @@ ycmd_new_cmd            (uchar a_menu, uchar *a_name, uchar *a_abbr, uchar *a_te
    tCMDS      *x_exist     = NULL;
    tLINK      *x_link      = NULL;
    /*---(header)-------------------------*/
-   DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
+   DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_CMDS   yLOG_point   ("r_cmds"    , r_cmds);
+   DEBUG_YCMD   yLOG_point   ("r_cmds"    , r_cmds);
    --rce;  if (r_cmds == NULL) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    *r_cmds = NULL;
    /*---(menu)---------------------------*/
-   DEBUG_CMDS   yLOG_char    ("a_menu"    , a_menu);
+   DEBUG_YCMD   yLOG_char    ("a_menu"    , a_menu);
    --rce;  if (a_menu == 0 || strchr (YSTR_MENU "-", a_menu) == NULL) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(name)---------------------------*/
    rc = ycmd_check_name (a_name, 'n', NULL);
-   DEBUG_CMDS   yLOG_value   ("name"      , rc);
+   DEBUG_YCMD   yLOG_value   ("name"      , rc);
    --rce;  if (rc < 0) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(abbreviation)-------------------*/
    rc = ycmd_check_name (a_abbr, 'a', NULL);
-   DEBUG_CMDS   yLOG_value   ("abbr"      , rc);
+   DEBUG_YCMD   yLOG_value   ("abbr"      , rc);
    --rce;  if (rc < 0) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(duplicate)----------------------*/
    rc = ycmd_check_dup  (CMDS_CUST, a_name, a_abbr);
-   DEBUG_CMDS   yLOG_value   ("dup"       , rc);
+   DEBUG_YCMD   yLOG_value   ("dup"       , rc);
    --rce;  if (rc < 0) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(terms)--------------------------*/
    rc = ycmd_terms (a_terms);
-   DEBUG_CMDS   yLOG_value   ("terms"     , rc);
+   DEBUG_YCMD   yLOG_value   ("terms"     , rc);
    --rce;  if (rc < 0) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(terms)--------------------------*/
-   DEBUG_CMDS   yLOG_point   ("a_func"    , a_func);
+   DEBUG_YCMD   yLOG_point   ("a_func"    , a_func);
    --rce;  if (a_func == NULL) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(allocate)-----------------------*/
@@ -362,15 +367,15 @@ ycmd_new_cmd            (uchar a_menu, uchar *a_name, uchar *a_abbr, uchar *a_te
       ++x_tries;
       x_new = (tCMDS *) malloc (sizeof (tCMDS));
    }
-   DEBUG_CMDS   yLOG_value   ("x_tries"   , x_tries);
-   DEBUG_CMDS   yLOG_point   ("x_new"     , x_new);
+   DEBUG_YCMD   yLOG_value   ("x_tries"   , x_tries);
+   DEBUG_YCMD   yLOG_point   ("x_new"     , x_new);
    --rce;  if (x_new == NULL) {
-      DEBUG_CMDS   yLOG_note    ("FAILED");
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_note    ("FAILED");
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(populate)-----------------------*/
-   DEBUG_CMDS   yLOG_note    ("populate");
+   DEBUG_YCMD   yLOG_note    ("populate");
    x_new->base     = CMDS_CUST;
    x_new->menu     = a_menu;
    strlcpy (x_new->name , a_name , LEN_LABEL);
@@ -382,7 +387,7 @@ ycmd_new_cmd            (uchar a_menu, uchar *a_name, uchar *a_abbr, uchar *a_te
    /*---(save back)----------------------*/
    *r_cmds = x_new;
    /*---(complete)-----------------------*/
-   DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
+   DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
    /*---(complete)-----------------------*/
    return 1;
 }
@@ -399,55 +404,55 @@ ycmd_new_link           (tCMDS *a_cmds, tLINK **r_link)
    tLINK      *x_curr      = NULL;
    int         x_terms     =   -1;
    /*---(header)-------------------------*/
-   DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
+   DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_CMDS   yLOG_point   ("a_cmds"    , r_link);
+   DEBUG_YCMD   yLOG_point   ("a_cmds"    , r_link);
    --rce;  if (r_link == NULL) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    *r_link = NULL;
    /*---(defense)------------------------*/
-   DEBUG_CMDS   yLOG_point   ("a_cmds"    , a_cmds);
+   DEBUG_YCMD   yLOG_point   ("a_cmds"    , a_cmds);
    --rce;  if (a_cmds == NULL) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_CMDS   yLOG_info    ("a_cmds"    , a_cmds);
+   DEBUG_YCMD   yLOG_info    ("a_cmds"    , a_cmds);
    /*---(check values)-------------------*/
-   DEBUG_CMDS   yLOG_point   ("name"      , a_cmds->name);
+   DEBUG_YCMD   yLOG_point   ("name"      , a_cmds->name);
    --rce;  if (a_cmds->name  == NULL) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_CMDS   yLOG_info    ("name"      , a_cmds->name);
-   DEBUG_CMDS   yLOG_point   ("abbr"      , a_cmds->abbr);
+   DEBUG_YCMD   yLOG_info    ("name"      , a_cmds->name);
+   DEBUG_YCMD   yLOG_point   ("abbr"      , a_cmds->abbr);
    --rce;  if (a_cmds->abbr  == NULL) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_CMDS   yLOG_info    ("abbr"      , a_cmds->abbr);
-   DEBUG_CMDS   yLOG_point   ("terms"     , a_cmds->terms);
+   DEBUG_YCMD   yLOG_info    ("abbr"      , a_cmds->abbr);
+   DEBUG_YCMD   yLOG_point   ("terms"     , a_cmds->terms);
    --rce;  if (a_cmds->terms == NULL) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_CMDS   yLOG_info    ("terms"     , a_cmds->terms);
+   DEBUG_YCMD   yLOG_info    ("terms"     , a_cmds->terms);
    x_terms = ycmd_terms (a_cmds->terms);
-   DEBUG_CMDS   yLOG_value   ("x_terms"   , x_terms);
+   DEBUG_YCMD   yLOG_value   ("x_terms"   , x_terms);
    --rce;  if (x_terms < 0) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(duplicate)----------------------*/
-   /*> DEBUG_CMDS   yLOG_point   ("->name"    , a_cmds->name);                        <*/
-   /*> DEBUG_CMDS   yLOG_info    ("->name"    , a_cmds->name);                        <*/
-   /*> DEBUG_CMDS   yLOG_point   ("->abbr"    , a_cmds->abbr);                        <*/
-   /*> DEBUG_CMDS   yLOG_info    ("->abbr"    , a_cmds->abbr);                        <*/
+   /*> DEBUG_YCMD   yLOG_point   ("->name"    , a_cmds->name);                        <*/
+   /*> DEBUG_YCMD   yLOG_info    ("->name"    , a_cmds->name);                        <*/
+   /*> DEBUG_YCMD   yLOG_point   ("->abbr"    , a_cmds->abbr);                        <*/
+   /*> DEBUG_YCMD   yLOG_info    ("->abbr"    , a_cmds->abbr);                        <*/
    rc = ycmd_check_dup  (a_cmds->base, a_cmds->name, a_cmds->abbr);
-   DEBUG_CMDS   yLOG_value   ("dup"       , rc);
+   DEBUG_YCMD   yLOG_value   ("dup"       , rc);
    --rce;  if (rc < 0) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(allocate)-----------------------*/
@@ -455,15 +460,15 @@ ycmd_new_link           (tCMDS *a_cmds, tLINK **r_link)
       ++x_tries;
       x_new = (tLINK *) malloc (sizeof (tLINK));
    }
-   DEBUG_CMDS   yLOG_value   ("x_tries"   , x_tries);
-   DEBUG_CMDS   yLOG_point   ("x_new"     , x_new);
+   DEBUG_YCMD   yLOG_value   ("x_tries"   , x_tries);
+   DEBUG_YCMD   yLOG_point   ("x_new"     , x_new);
    --rce;  if (x_new == NULL) {
-      DEBUG_CMDS   yLOG_note    ("FAILED");
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_note    ("FAILED");
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(populate)-----------------------*/
-   DEBUG_CMDS   yLOG_note    ("populate");
+   DEBUG_YCMD   yLOG_note    ("populate");
    x_new->data     = a_cmds;
    x_new->nlen     = strlen (a_cmds->name);
    x_new->nterms   = x_terms;
@@ -471,26 +476,26 @@ ycmd_new_link           (tCMDS *a_cmds, tLINK **r_link)
    x_new->m_next   = NULL;
    /*---(tie to master list)-------------*/
    if (g_head == NULL) {
-      DEBUG_CMDS   yLOG_note    ("nothing in master list, make first");
+      DEBUG_YCMD   yLOG_note    ("nothing in master list, make first");
       g_head         = x_new;
    } else  {
-      DEBUG_CMDS   yLOG_note    ("append to master list");
+      DEBUG_YCMD   yLOG_note    ("append to master list");
       g_tail->m_next = x_new;
    }
    g_tail        = x_new;
-   DEBUG_CMDS   yLOG_point   ("g_head"    , g_head);
-   DEBUG_CMDS   yLOG_point   ("->m_next"  , g_head->m_next);
-   DEBUG_CMDS   yLOG_point   ("g_tail"    , g_tail);
-   DEBUG_CMDS   yLOG_point   ("m_next"    , x_new->m_next);
+   DEBUG_YCMD   yLOG_point   ("g_head"    , g_head);
+   DEBUG_YCMD   yLOG_point   ("->m_next"  , g_head->m_next);
+   DEBUG_YCMD   yLOG_point   ("g_tail"    , g_tail);
+   DEBUG_YCMD   yLOG_point   ("m_next"    , x_new->m_next);
    /*---(update counts)------------------*/
    ++g_ncmd;
    if (x_new->data->base  == CMDS_BASE)    ++(myCMD.nbase);
-   DEBUG_CMDS   yLOG_value   ("g_ncmd"    , g_ncmd);
-   DEBUG_CMDS   yLOG_value   ("nbase"     , myCMD.nbase);
+   DEBUG_YCMD   yLOG_value   ("g_ncmd"    , g_ncmd);
+   DEBUG_YCMD   yLOG_value   ("nbase"     , myCMD.nbase);
    /*---(save back)----------------------*/
    *r_link = x_new;
    /*---(complete)-----------------------*/
-   DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
+   DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
    return 1;
 }
 
@@ -511,23 +516,23 @@ ycmd_load_name          (char *a_name)
    tCMDS      *x_cmds      = NULL;
    tLINK      *x_link      = NULL;
    /*---(header)-------------------------*/
-   DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
+   DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
    /*---(find)---------------------------*/
    rc = ycmd_load_by_name (a_name, &x_cmds);
-   DEBUG_CMDS   yLOG_value   ("by_name"   , rc);
+   DEBUG_YCMD   yLOG_value   ("by_name"   , rc);
    --rce;  if (rc < 0) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(link)---------------------------*/
    rc = ycmd_new_link (s_bases + i, &x_link);
-   DEBUG_CMDS   yLOG_value   ("link"      , rc);
+   DEBUG_YCMD   yLOG_value   ("link"      , rc);
    --rce;  if (rc < 0) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(complete)-----------------------*/
-   DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
+   DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
    return 1;
 }
 
@@ -539,7 +544,7 @@ ycmd_load      (void)
    char        rc          =    0;
    tLINK      *x_curr      = NULL;
    /*---(header)-------------------------*/
-   DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
+   DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
    /*---(load)---------------------------*/
    for (i = 0; i < myCMD.nbase; ++i) {
       /*---(check for end)---------------*/
@@ -549,7 +554,7 @@ ycmd_load      (void)
       rc = ycmd_new_link (s_bases + i, &x_curr);
    }
    /*---(complete)-----------------------*/
-   DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
+   DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -562,31 +567,31 @@ yCMD_add             (uchar a_menu, uchar *a_name, uchar *a_abbr, uchar *a_terms
    tCMDS      *x_cmds      = NULL;
    tLINK      *x_link      = NULL;
    /*---(header)-------------------------*/
-   DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
+   DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_CMDS   yLOG_note    ("before status check");
+   DEBUG_YCMD   yLOG_note    ("before status check");
    --rce;  if (!yMODE_operational (MODE_COMMAND)) {
-      DEBUG_CMDS   yLOG_note    ("can not configure until operational");
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_note    ("can not configure until operational");
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_CMDS   yLOG_note    ("after status check");
+   DEBUG_YCMD   yLOG_note    ("after status check");
    /*---(call add)-----------------------*/
    rc = ycmd_new_cmd    (a_menu, a_name, a_abbr, a_terms, a_func, a_desc, &x_cmds);
-   DEBUG_CMDS   yLOG_value   ("newcmd"    , rc);
+   DEBUG_YCMD   yLOG_value   ("newcmd"    , rc);
    --rce;  if (rc < 0) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(call add)-----------------------*/
    rc = ycmd_new_link   (x_cmds, &x_link);
-   DEBUG_CMDS   yLOG_value   ("newcmd"    , rc);
+   DEBUG_YCMD   yLOG_value   ("newcmd"    , rc);
    --rce;  if (rc < 0) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(complete)-----------------------*/
-   DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
+   DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
    return 1;
 }
 

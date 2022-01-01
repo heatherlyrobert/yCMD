@@ -56,15 +56,15 @@ ycmd_terms_init         (void)
    char        rc          =    0;
    int         i           =    0;
    /*---(header)-------------------------*/
-   DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
+   DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
    --rce;  if (!yMODE_check_prep  (MODE_COMMAND)) {
-      DEBUG_CMDS   yLOG_note    ("status is not ready for init");
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_note    ("status is not ready for init");
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(terms)--------------------------*/
-   DEBUG_CMDS   yLOG_note    ("initialize term system");
+   DEBUG_YCMD   yLOG_note    ("initialize term system");
    s_nterm = 0;
    for (i = 0; i < MAX_TERMS; ++i) {
       if (s_terms [i].name [0] == '-')  break;
@@ -74,7 +74,7 @@ ycmd_terms_init         (void)
    for (i = 0; i < 10; ++i)  strlcpy (myCMD.p_fields [i], "", LEN_RECD);
    strlcpy (myCMD.p_all    , "", LEN_RECD);
    /*---(complete)-----------------------*/
-   DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
+   DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -86,11 +86,11 @@ ycmd_terms_clear        (void)
    char        rc          =    0;
    int         i           =    0;
    /*---(header)-------------------------*/
-   DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
-   DEBUG_CMDS   yLOG_note    ("clear term system");
+   DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
+   DEBUG_YCMD   yLOG_note    ("clear term system");
    s_nterm = 0;
    /*---(complete)-----------------------*/
-   DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
+   DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
@@ -125,41 +125,41 @@ ycmd_terms              (uchar *a_terms)
    char        rce         =  -10;
    int         i           =    0;
    /*---(header)-------------------------*/
-   DEBUG_CMDS   yLOG_senter  (__FUNCTION__);
+   DEBUG_YCMD   yLOG_senter  (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_CMDS   yLOG_spoint  (a_terms);
+   DEBUG_YCMD   yLOG_spoint  (a_terms);
    --rce;  if (a_terms == NULL) {
-      DEBUG_CMDS   yLOG_sexitr  (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_sexitr  (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_CMDS   yLOG_snote   (a_terms);
+   DEBUG_YCMD   yLOG_snote   (a_terms);
    /*---(short-cuts)---------------------*/
    i = strlen (a_terms);
    if (i == 0) {
-      DEBUG_CMDS   yLOG_snote   ("short-cut for empty");
-      DEBUG_CMDS   yLOG_sint    (0);
-      DEBUG_CMDS   yLOG_sexit   (__FUNCTION__);
+      DEBUG_YCMD   yLOG_snote   ("short-cut for empty");
+      DEBUG_YCMD   yLOG_sint    (0);
+      DEBUG_YCMD   yLOG_sexit   (__FUNCTION__);
       return 0;
    }
    if (i == 1 && a_terms [0] == '-') {
-      DEBUG_CMDS   yLOG_snote   ("short-cut for dash");
-      DEBUG_CMDS   yLOG_sint    (0);
-      DEBUG_CMDS   yLOG_sexit   (__FUNCTION__);
+      DEBUG_YCMD   yLOG_snote   ("short-cut for dash");
+      DEBUG_YCMD   yLOG_sint    (0);
+      DEBUG_YCMD   yLOG_sexit   (__FUNCTION__);
       return 0;
    }
    /*---(walk)---------------------------*/
    for (i = 0; i < s_nterm; ++i) {
       if (a_terms [0] != s_terms [i].name [0])       continue;
       if (strcmp (a_terms, s_terms [i].name) != 0)   continue;
-      DEBUG_CMDS   yLOG_snote   ("found");
-      DEBUG_CMDS   yLOG_sint    (i);
-      DEBUG_CMDS   yLOG_sexit   (__FUNCTION__);
+      DEBUG_YCMD   yLOG_snote   ("found");
+      DEBUG_YCMD   yLOG_sint    (i);
+      DEBUG_YCMD   yLOG_sexit   (__FUNCTION__);
       return i;
    }
    /*---(failed)-------------------------*/
    --rce;
-   DEBUG_CMDS   yLOG_snote   ("FAILED");
-   DEBUG_CMDS   yLOG_sexitr  (__FUNCTION__, rce);
+   DEBUG_YCMD   yLOG_snote   ("FAILED");
+   DEBUG_YCMD   yLOG_sexitr  (__FUNCTION__, rce);
    return rce;
 }
 
@@ -177,29 +177,29 @@ ycmd_launch             (tLINK *a_link, char *a_rc)
    char        rce         =  -10;
    char        rc          =    0;
    /*---(header)-------------------------*/
-   DEBUG_CMDS   yLOG_enter   (__FUNCTION__);
+   DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   DEBUG_CMDS   yLOG_point   ("link"      , a_link);
+   DEBUG_YCMD   yLOG_point   ("link"      , a_link);
    --rce;  if (a_link == NULL) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_CMDS   yLOG_value   ("nterms"    , a_link->nterms);
+   DEBUG_YCMD   yLOG_value   ("nterms"    , a_link->nterms);
    --rce;  if (a_link->nterms < 0 || a_link->nterms >= s_nterm) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_CMDS   yLOG_point   ("->data"    , a_link->data);
+   DEBUG_YCMD   yLOG_point   ("->data"    , a_link->data);
    --rce;  if (a_link->data == NULL) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_CMDS   yLOG_point   ("->f.v"     , a_link->data->f.v);
+   DEBUG_YCMD   yLOG_point   ("->f.v"     , a_link->data->f.v);
    --rce;  if (a_link->data->f.v == NULL) {
-      DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+      DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   DEBUG_CMDS   yLOG_info    ("terms"     , a_link->data->terms);
+   DEBUG_YCMD   yLOG_info    ("terms"     , a_link->data->terms);
    /*---(run)----------------------------*/
    --rce;  switch (a_link->nterms) {
    case  0 : rc = a_link->data->f.v      ();                                                                break;
@@ -223,14 +223,14 @@ ycmd_launch             (tLINK *a_link, char *a_rc)
    case 18 : rc = a_link->data->f.iiii   (atoi (myCMD.p_fields [1]), atoi (myCMD.p_fields [2]), atoi (myCMD.p_fields [3]), atoi (myCMD.p_fields [4]));  break;
    case 19 : rc = a_link->data->f.ci     (myCMD.p_fields [1][0], atoi (myCMD.p_fields [2]));  break;
    default : rc = -1;                                                                                       break;
-             DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);
+             DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
              return rce;
    }
    /*---(complete)-----------------------*/
-   DEBUG_CMDS   yLOG_value   ("rc"        , rc);
+   DEBUG_YCMD   yLOG_value   ("rc"        , rc);
    if (a_rc != NULL)  *a_rc = rc;
    /*---(complete)-----------------------*/
-   DEBUG_CMDS   yLOG_exit    (__FUNCTION__);
+   DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
