@@ -6,15 +6,6 @@
 
 
 
-/*---(true useful vars)---------------*/
-tLINK  *g_head   = NULL;              /* head of link chain            */
-tLINK  *g_tail   = NULL;              /* tail of link chain            */
-/*---(menu grphics/unit testing)------*/
-tLINK  *g_found  = NULL;              /* result of last find           */
-/*---(DEBUGGING FASTER)---------------*/
-short   g_ncmd   = 0;                 /* all menu items in list        */
-/*---(done)---------------------------*/
-
 
 
 /*====================------------------------------------====================*/
@@ -33,9 +24,9 @@ ycmd_exec_purge         (void)
    /*---(header)-------------------------*/
    DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
    /*---(defense)------------------------*/
-   x_curr = g_head;
+   x_curr = myCMD.c_head;
    /*---(clear)--------------------------*/
-   DEBUG_YCMD   yLOG_value   ("g_ncmd"    , g_ncmd);
+   DEBUG_YCMD   yLOG_value   ("c_ncmd"    , myCMD.c_ncmd);
    while (x_curr != NULL) {
       DEBUG_YCMD   yLOG_complex ("focus"     , "%c %s", x_curr->data->base, x_curr->data->name);
       x_next = x_curr->m_next;
@@ -48,11 +39,11 @@ ycmd_exec_purge         (void)
    }
    /*---(initialize pointers)------------*/
    DEBUG_YCMD   yLOG_note    ("pointers");
-   g_head   = NULL;
-   g_tail   = NULL;
+   myCMD.c_head   = NULL;
+   myCMD.c_tail   = NULL;
    /*---(initialize counters)------------*/
    DEBUG_YCMD   yLOG_note    ("counters");
-   g_ncmd   = 0;
+   myCMD.c_ncmd   = 0;
    /*---(complete)-----------------------*/
    DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
    return 0;
@@ -65,7 +56,7 @@ ycmd_exec_purge         (void)
 /*====================------------------------------------====================*/
 static void      o___SEARCH__________________o (void) {;}
 
-int  ycmd_exec_count    (void)  { return g_ncmd; }
+int  ycmd_exec_count    (void)  { return myCMD.c_ncmd; }
 
 char
 ycmd_exec_by_name       (uchar *a_name, tLINK **r_link)
@@ -91,8 +82,8 @@ ycmd_exec_by_name       (uchar *a_name, tLINK **r_link)
    DEBUG_YCMD   yLOG_info    ("a_name"    , a_name);
    /*---(prepare)------------------------*/
    x_len   = strlen (a_name);
-   x_curr  = g_head;
-   DEBUG_YCMD   yLOG_value   ("g_ncmd"    , g_ncmd);
+   x_curr  = myCMD.c_head;
+   DEBUG_YCMD   yLOG_value   ("c_ncmd"    , myCMD.c_ncmd);
    /*---(walk structure)-----------------*/
    --rce;  while (x_curr != NULL) {
       /*---(output)----------------------*/
@@ -146,7 +137,7 @@ ycmd_exec_by_index      (short a_index, tLINK **r_link)
    }
    /*---(prepare)------------------------*/
    *r_link = NULL;
-   x_curr  = g_head;
+   x_curr  = myCMD.c_head;
    /*---(walk structure)-----------------*/
    --rce;  while (x_curr != NULL) {
       /*---(output)----------------------*/
@@ -295,6 +286,7 @@ yCMD_exec               (uchar *a_command, char *a_rc)
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
    char        rc          =    0;
+   char        x_mode      =  '-';
    char        x_rc        =    0;
    tLINK      *x_link      = NULL;
    char        x_cmd       [LEN_RECD]  = "";
@@ -320,6 +312,15 @@ yCMD_exec               (uchar *a_command, char *a_rc)
       DEBUG_YCMD   yLOG_note    ("empty command");
       DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
       return rce;
+   }
+   /*---(exit command mode)-------------*/
+   x_mode = yMODE_curr ();
+   DEBUG_YCMD   yLOG_char    ("mode"      , x_mode);
+   if (strchr (":/S", x_mode) != NULL) {
+      DEBUG_YCMD   yLOG_note    ("must exit mode before leaving");
+      yMODE_exit ();
+      x_mode = yMODE_curr ();
+      DEBUG_YCMD   yLOG_char    ("mode"      , x_mode);
    }
    /*---(look for system)---------------*/
    if (strncmp (a_command, ":!", 2) == 0) {

@@ -8,7 +8,7 @@ NAME_BASE  = yCMD
 # additional standard and outside libraries
 LIB_STD    = 
 # all heatherly libraries used, debug versions whenever available
-LIB_MINE   = -lyMODE_debug -lyKEYS_debug -lyMACRO_debug -lyCMD_debug -lySRC_debug -lyVIEW_debug -lyFILE_debug -lySTR_debug -lyX11_debug -lyCOLOR_debug
+LIB_MINE   = -lyVIHUB_debug -lyMODE_debug -lyKEYS_debug -lyMACRO_debug -lyMAP_debug -lySRC_debug -lyVIEW_debug -lyFILE_debug -lySTR_debug -lyX11_debug -lyCOLOR_debug -lyPARSE_debug
 # directory for production code, no trailing slash
 INST_DIR   = 
 

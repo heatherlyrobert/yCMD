@@ -8,6 +8,13 @@
 
 
 static const tCMDS  s_bases     [] = {
+   /*---(yCMD)--------------------------------------------------------------------------------------------------------------------------------*/
+   { 'b', 'f', "mute"            , ""    , ycmd_mute                 , "-"    , "mute/quiet debug logging ouput"                              },
+   { 'b', 'f', "unmute"          , ""    , ycmd_unmute               , "-"    , "unmute/loud debug logging ouput"                             },
+   { 'b', 'f', "urgent"          , "urg" , ycmd_urgent               , "sc"   , "control individual logging urgents"                          },
+   /*---(yMAP)--------------------------------------------------------------------------------------------------------------------------------*/
+   { 'b', 'f', "mundo_purge"     , ""    , yMAP_mundo_purge          , "-"    , "purge history and reset mundo"                               },
+   { 'b', 'f', "range"           , ""    , yMAP_range                , "ss"   , "set a range based on two addresses"                          },
    /*---(yKEYS)-------------------------------------------------------------------------------------------------------------------------------*/
    { 'b', 'f', "quit"            , "q"   , yKEYS_quit                , "-"    , "quit current file (if no changes), exit if the only file"    },
    { 'b', 'f', "quitall"         , "qa"  , yKEYS_quit                , "-"    , "quit all files (if no changes), and exit"                    },
@@ -42,7 +49,6 @@ static const tCMDS  s_bases     [] = {
    { 'b', 'f', "new"             , ""    , yFILE_new                 , "-"    , "purge all contents and set-up a new, blank file"             },
    /*---(special)-----------*/
    { 'b', 'e', "dump"            , ""    , yFILE_dump                , "s"    , "dump a specified data table to the clipboard in flat text"   },
-   /*> { 'b', 'c', "menu"            , ""    , yvikeys_menu_reanchor     , "c"    , "change the menu anchoring"                                   },   <*/
    /*---(yMACRO)------------------------------------------------------------------------------------------------------------------------------*/
    { 'b', 'r', "macro"           , ""    , yMACRO_direct             , "a"    , "direct definition of a keyboard macro"                       },
    { 'b', 'r', "script"          , "@"   , yMACRO_script_start       , "s"    , "execution of macro script from a file"                       },
@@ -55,6 +61,7 @@ static const tCMDS  s_bases     [] = {
    { 'b', 'r', "dupdate"         , ""    , yMACRO_dupdate            , "c"    , ""                                                            },
    { 'b', 'r', "flatten"         , ""    , yMACRO_flatten            , "cc"   , ""                                                            },
    { 'b', 'r', "install"         , ""    , yMACRO_install            , "c"    , ""                                                            },
+   { 'b', 'r', "agrios"          , ""    , yMACRO_agrios_start       , "a"    , "direct definition of a keyboard macro"                       },
    /*---(yCOLOR)------------------------------------------------------------------------------------------------------------------------------*/
    { 'b', 'v', "palette"         , ""    , yCOLOR_palette            , "isss" , ""                                                            },
    { 'b', 'v', "wheel"           , ""    , yCOLOR_wheel              , "s"    , ""                                                            },
@@ -89,13 +96,14 @@ static const tCMDS  s_bases     [] = {
    { 'b', 'v', "mask"            , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
    { 'b', 'v', "color"           , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
    { 'b', 'v', "back"            , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
-   { 'b', 'v', "float_loc"       , ""    , yVIEW_loc_float           , "c"    , "change where the float appears in the main window"           },
-   { 'b', 'v', "hist_loc"        , ""    , yVIEW_loc_history         , "c"    , "change where the history appears in the main window"         },
-   { 'b', 'v', "menu_loc"        , ""    , yVIEW_loc_menu            , "c"    , "change where the menu appears in the main window"            },
+   { 'b', 'v', "float"           , ""    , yVIEW_loc_float           , "c"    , "change where the float appears in the main window"           },
+   { 'b', 'v', "history"         , ""    , yVIEW_loc_history         , "c"    , "change where the history appears in the main window"         },
+   { 'b', 'v', "menus"           , ""    , yVIEW_loc_menu            , "c"    , "change where the menu appears in the main window"            },
    /*> { 'b', 'v', "gridoff"         , ""    , VIEW__grid_offset         , "iii"  , ""                                                            },   <*/
    /*> { 'b', 'v', "gridsize"        , ""    , VIEW__grid_size           , "iii"  , ""                                                            },   <*/
    /*> { 'b', 'v', "layer"           , "l"   , yvikeys_layer_action      , "ss"   , ""                                                            },   <*/
-   /*> { 'b', 'i', "note"            , ""    , yvikeys_note              , "a"    , "manage screen annotations (notes)"                           },   <*/
+   { 'b', 'i', "note"            , ""    , yVIEW_note_direct         , "a"    , "manage screen annotations (notes)"                           },
+   { 'b', 'i', "notew"           , ""    , yVIEW_note_directw        , "a"    , "manage screen annotations (notes)"                           },
    /*---(yX11)--------------------------------------------------------------------------------------------------------------------------------*/
    /*> { 'b', 'x', "winreset"        , ""    , yX11_reset                , ""     , "move between window manager desktops"                        },   <* 
     *> { 'b', 'x', "desktop"         , ""    , yX11_desk_goto            , "c"    , "move between window manager desktops"                        },   <* 
@@ -130,7 +138,8 @@ ycmd_load_init          (void)
    int         i           =    0;
    myCMD.nbase = 0;
    for (i = 0; i < MAX_BASE; ++i) {
-      if (s_bases [i].base == 0)  break;
+      if (s_bases [i].base == 0  )  break;
+      if (s_bases [i].base != 'b')  break;
       ++(myCMD.nbase);
    }
    return 0;
@@ -192,6 +201,7 @@ ycmd_check_name         (uchar *a_name, char a_type, int *r_len)
       return rce;
    }
    /*---(output)-------------------------*/
+   DEBUG_YCMD   yLOG_snote   (a_name);
    if (r_len != NULL)  *r_len = x_len;
    /*---(complete)-----------------------*/
    DEBUG_YCMD   yLOG_sexit   (__FUNCTION__);
@@ -475,22 +485,22 @@ ycmd_new_link           (tCMDS *a_cmds, tLINK **r_link)
    x_new->alen     = strlen (a_cmds->abbr);
    x_new->m_next   = NULL;
    /*---(tie to master list)-------------*/
-   if (g_head == NULL) {
+   if (myCMD.c_head == NULL) {
       DEBUG_YCMD   yLOG_note    ("nothing in master list, make first");
-      g_head         = x_new;
+      myCMD.c_head         = x_new;
    } else  {
       DEBUG_YCMD   yLOG_note    ("append to master list");
-      g_tail->m_next = x_new;
+      myCMD.c_tail->m_next = x_new;
    }
-   g_tail        = x_new;
-   DEBUG_YCMD   yLOG_point   ("g_head"    , g_head);
-   DEBUG_YCMD   yLOG_point   ("->m_next"  , g_head->m_next);
-   DEBUG_YCMD   yLOG_point   ("g_tail"    , g_tail);
+   myCMD.c_tail        = x_new;
+   DEBUG_YCMD   yLOG_point   ("c_head"    , myCMD.c_head);
+   DEBUG_YCMD   yLOG_point   ("->m_next"  , myCMD.c_head->m_next);
+   DEBUG_YCMD   yLOG_point   ("c_tail"    , myCMD.c_tail);
    DEBUG_YCMD   yLOG_point   ("m_next"    , x_new->m_next);
    /*---(update counts)------------------*/
-   ++g_ncmd;
-   if (x_new->data->base  == CMDS_BASE)    ++(myCMD.nbase);
-   DEBUG_YCMD   yLOG_value   ("g_ncmd"    , g_ncmd);
+   ++myCMD.c_ncmd;
+   /*> if (x_new->data->base  == CMDS_BASE)    ++(myCMD.nbase);                       <*/
+   DEBUG_YCMD   yLOG_value   ("c_ncmd"    , myCMD.c_ncmd);
    DEBUG_YCMD   yLOG_value   ("nbase"     , myCMD.nbase);
    /*---(save back)----------------------*/
    *r_link = x_new;

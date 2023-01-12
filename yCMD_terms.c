@@ -37,6 +37,7 @@ const tTERMS  s_terms [] = {
    { "cciiii"  , "char, char, int, int, int, int"    },
    { "iiii"    , "int, int, int, int"                },
    { "ci"      , "char, int"                         },
+   { "sc"      , "char*, char"                       },
    { "-"       , "-"                                 },
 };
 static  int s_nterm  = 0;
@@ -203,25 +204,26 @@ ycmd_launch             (tLINK *a_link, char *a_rc)
    /*---(run)----------------------------*/
    --rce;  switch (a_link->nterms) {
    case  0 : rc = a_link->data->f.v      ();                                                                break;
-   case  1 : rc = a_link->data->f.c      (myCMD.p_fields [1][0]);                                                 break;
-   case  2 : rc = a_link->data->f.cc     (myCMD.p_fields [1][0], myCMD.p_fields [2][0]);                                break;
-   case  3 : rc = a_link->data->f.i      (atoi (myCMD.p_fields [1]));                                             break;
-   case  4 : rc = a_link->data->f.is     (atoi (myCMD.p_fields [1]), myCMD.p_fields [1]);                               break;
-   case  5 : rc = a_link->data->f.s      (myCMD.p_fields [1]);                                                    break;
-   case  6 : rc = a_link->data->f.ss     (myCMD.p_fields [1], myCMD.p_fields [2]);                                      break;
-   case  7 : rc = a_link->data->f.si     (myCMD.p_fields [1], atoi (myCMD.p_fields [2]));                               break;
-   case  8 : rc = a_link->data->f.s      (myCMD.p_all);                                                           break;
-   case  9 : rc = a_link->data->f.ii     (atoi (myCMD.p_fields [1]), atoi (myCMD.p_fields [2]));                        break;
+   case  1 : rc = a_link->data->f.c      (myCMD.p_fields [1][0]);                                           break;
+   case  2 : rc = a_link->data->f.cc     (myCMD.p_fields [1][0], myCMD.p_fields [2][0]);                    break;
+   case  3 : rc = a_link->data->f.i      (atoi (myCMD.p_fields [1]));                                       break;
+   case  4 : rc = a_link->data->f.is     (atoi (myCMD.p_fields [1]), myCMD.p_fields [1]);                   break;
+   case  5 : rc = a_link->data->f.s      (myCMD.p_fields [1]);                                              break;
+   case  6 : rc = a_link->data->f.ss     (myCMD.p_fields [1], myCMD.p_fields [2]);                          break;
+   case  7 : rc = a_link->data->f.si     (myCMD.p_fields [1], atoi (myCMD.p_fields [2]));                   break;
+   case  8 : rc = a_link->data->f.s      (myCMD.p_all);                                                     break;
+   case  9 : rc = a_link->data->f.ii     (atoi (myCMD.p_fields [1]), atoi (myCMD.p_fields [2]));            break;
    case 10 : rc = a_link->data->f.iii    (atoi (myCMD.p_fields [1]), atoi (myCMD.p_fields [2]), atoi (myCMD.p_fields [3]));   break;
    case 11 : rc = a_link->data->f.sii    (myCMD.p_fields [1], atoi (myCMD.p_fields [2]), atoi (myCMD.p_fields [3]));          break;
    case 12 : rc = a_link->data->f.isss   (atoi (myCMD.p_fields [1]), myCMD.p_fields [2], myCMD.p_fields [3], myCMD.p_fields [4]);   break;
-   case 13 : rc = a_link->data->f.ss     (myCMD.p_fields [0], myCMD.p_fields [1]);                                      break;
-   case 14 : rc = a_link->data->f.css    (myCMD.p_fields [1][0], myCMD.p_fields [2], myCMD.p_fields [3]);                     break;
-   case 15 : rc = a_link->data->f.cs     (myCMD.p_fields [1][0], myCMD.p_fields [2]);                                   break;
-   case 16 : rc = a_link->data->f.f      (atof (myCMD.p_fields [1]));                                             break;
+   case 13 : rc = a_link->data->f.ss     (myCMD.p_fields [0], myCMD.p_fields [1]);                          break;
+   case 14 : rc = a_link->data->f.css    (myCMD.p_fields [1][0], myCMD.p_fields [2], myCMD.p_fields [3]);   break;
+   case 15 : rc = a_link->data->f.cs     (myCMD.p_fields [1][0], myCMD.p_fields [2]);                       break;
+   case 16 : rc = a_link->data->f.f      (atof (myCMD.p_fields [1]));                                       break;
    case 17 : rc = a_link->data->f.cciiii (myCMD.p_fields [1][0], myCMD.p_fields [2][0], atoi (myCMD.p_fields [3]), atoi (myCMD.p_fields [4]), atoi (myCMD.p_fields [5]), atoi (myCMD.p_fields [6]));  break;
    case 18 : rc = a_link->data->f.iiii   (atoi (myCMD.p_fields [1]), atoi (myCMD.p_fields [2]), atoi (myCMD.p_fields [3]), atoi (myCMD.p_fields [4]));  break;
-   case 19 : rc = a_link->data->f.ci     (myCMD.p_fields [1][0], atoi (myCMD.p_fields [2]));  break;
+   case 19 : rc = a_link->data->f.ci     (myCMD.p_fields [1][0], atoi (myCMD.p_fields [2]));                break;
+   case 20 : rc = a_link->data->f.sc     (myCMD.p_fields [1], myCMD.p_fields [2][0]);                       break;
    default : rc = -1;                                                                                       break;
              DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
              return rce;

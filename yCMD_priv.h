@@ -36,8 +36,8 @@
 
 #define     P_VERMAJOR  "2.--, clean, improve, and expand"
 #define     P_VERMINOR  "2.0-, separated into independent library"
-#define     P_VERNUM    "2.0ef
-#define     P_VERTXT    "fixed :! external execution trouble"
+#define     P_VERNUM    "2.0g"
+#define     P_VERTXT    "everything (but some of menu) is unit test compliant after yVIHUB transition"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -50,15 +50,18 @@
 #include    <stdlib.h>            /* clibc  standard general purpose          */
 #include    <string.h>            /* clibc  standard string handling          */
 /*---(custom)----------------------------*/
+#include    <yVIHUB.h>
 #include    <yURG.h>              /* heatherly urgent processing              */
 #include    <yLOG.h>              /* heatherly program logging                */
 #include    <ySTR.h>              /* heatherly string processing              */
 #include    <yMODE.h>             /* heatherly vi-keys mode control           */
 #include    <yKEYS.h>             /* heatherly vi-keys key handling           */
 #include    <yMACRO.h>            /* heatherly vi-keys macro processing       */
+#include    <yMAP.h>              /* heatherly vi-keys location management    */
 #include    <ySRC.h>              /* heatherly vi-keys source editing         */
 #include    <yVIEW.h>             /* heatherly vi-keys view management        */
 #include    <yFILE.h>             /* heatherly vi-keys content file handling  */
+#include    <yPARSE.h>
 #include    <yCOLOR.h>            /* heatherly opengl color handling          */
 
 
@@ -91,6 +94,7 @@ struct  cCMDS {
       char        (*cciiii) (char, char, int, int, int, int);
       char        (*iiii  ) (int, int, int, int);
       char        (*ci    ) (char, int);
+      char        (*sc    ) (char*, char);
    } f;
    uchar       terms       [LEN_TERSE];     /* type of terms/args             */
    uchar       desc        [LEN_DESC];      /* descriptive label              */
@@ -115,15 +119,70 @@ struct cLINK {
    tLINK      *m_next;
 };
 
-/*---(true useful vars)---------------*/
-extern tLINK  *g_head;                       /* head of link chain            */
-extern tLINK  *g_tail;                       /* tail of link chain            */
-/*---(menu grphics/unit testing)------*/
-extern tLINK  *g_found;                      /* result of last find           */
-/*---(DEBUGGING FASTER)---------------*/
-extern short   g_ncmd;                       /* all menu items in list        */
-extern short   g_nbase;                      /* base menu items in list       */
-/*---(done)---------------------------*/
+
+
+/*===[[ MENUS ]]==============================================================*/
+#define    LEN_NAME        11
+#define    MAX_MENU        2000
+typedef    struct   cMENU   tMENU;
+struct cMENU {
+   /*---(original)----------*/
+   uchar       base;                        /* original item (not added)      */
+   /*---(organize)----------*/
+   uchar       top;                         /* first level key                */
+   uchar       mid;                         /* second level key               */
+   uchar       bot;                         /* third level key                */
+   /*---(master)------------*/
+   uchar       name        [LEN_NAME];      /* name for use on screens        */
+   uchar       active;                      /* program activation             */
+   uchar       type;                        /* entry type   > ! = ·           */
+   uchar       keys        [LEN_TITLE];     /* command or keys to execute     */
+   /*---(done)--------------*/
+};
+#define     MENU_BASE        'b'  /* fully standard in base           */
+#define     MENU_HELD        'h'  /* base saved name but not keys     */
+#define     MENU_CUSTOM      'c'  /* fully custom, not in base        */
+
+#define     MENU_PLACE       'p'  /* put new menu in heirarchy        */
+#define     MENU_FIND        'f'  /* find entry in heirarchy          */
+#define     MENU_MENU        'm'  /* find entry for menu              */
+#define     MENU_ACTIVE      'y'  /* mark entry active in heirarchyi  */
+#define     MENU_GREY        '-'  /* mark entry inactive in heirarchy */
+#define     MENU_HIDE        '/'  /* hide entry in heirarchy          */
+
+#define     MENU_GROUPING    ">123"
+#define     MENU_GROUP       '>'  /* group type entry                 */
+#define     MENU_SINGLE      '1'  /* manually laid out group          */
+#define     MENU_DOUBLE      '2'  /* manually laid out group          */
+#define     MENU_TRIPLE      '3'  /* manually laid out group          */
+#define     MENU_NAMER       '!'  /* end item name/place holder       */
+#define     MENU_EXACT       '·'  /* end item with all keys needed    */
+#define     MENU_CMD         ':'  /* end item command with all keys   */
+#define     MENU_MORE        '='  /* end item needing more keys       */
+#define     MENU_TBD         '?'  /* end item not yet completed       */
+#define     MENU_SKIP   (uchar) '²'  /* skip a line                      */
+#define     MENU_BREAK  (uchar) 'Ö'  /* go to the next line              */
+
+typedef    struct   cMLINK   tMLINK;
+struct cMLINK {
+   char        active;                      /* current active status          */
+   tMENU      *data;                        /* pointer to menu entry          */
+   tMLINK     *m_next;                      /* master list next               */
+   tMLINK     *m_prev;                      /* master list prev               */
+   tMLINK     *s_next;                      /* next sibling                   */
+   tMLINK     *c_first;                     /* first child                    */
+   uchar       c_count;                     /* count of children              */
+};
+
+
+#define  MAX_PLACE   50
+typedef    struct   cPLACE   tPLACE;
+struct cPLACE {
+   tMLINK*      item;
+   char        align;
+   int         x, xo;
+   int         y, yo;
+};
 
 
 
@@ -135,6 +194,36 @@ struct cMY {
    char        p_nfield;
    char        p_fields    [10][LEN_RECD];
    char        p_all       [LEN_RECD];
+   /*---(true useful vars)---------------*/
+   tLINK      *c_head;                      /* head of link chain            */
+   tLINK      *c_tail;                      /* tail of link chain            */
+   /*---(menu grphics/unit testing)------*/
+   tLINK      *g_found;                     /* result of last find           */
+   /*---(DEBUGGING FASTER)---------------*/
+   short       c_ncmd;                      /* all menu items in list        */
+   short       c_nbase;                     /* base menu items in list       */
+   /*---(menus)----------------*/
+   char        m_path      [LEN_LABEL];     /* key path in menu               */
+   char        m_keys      [LEN_HUND];      /* resulting keys from menu       */
+   tMLINK     *m_head;                      /* head of link chain             */
+   tMLINK     *m_tail;                      /* tail of link chain             */
+   char        m_config;                    /* how much base to load          */
+   /*---(working)---------------*/
+   tMLINK     *m_parent;                    /* result of last find            */
+   tMLINK     *m_found;                     /* result of last find            */
+   char        m_level;                     /* level of last find             */
+   /*---(debugging)-------------*/
+   short       m_nmenu;                     /* all menu items in list         */
+   short       m_nbase;                     /* base menu items in list        */
+   short       m_nreal;                     /* active menu items in list      */
+   short       m_ngrey;                     /* inactive items in list         */
+   short       m_nhide;                     /* hidden items in list           */
+   short       m_ntops;                     /* top level items in list        */
+   short       m_nmids;                     /* mid level items in list        */
+   short       m_nbots;                     /* bot level items in list        */
+   /*---(debugging)-------------*/
+   tPLACE      m_places   [MAX_PLACE];
+   char        m_nplace;
    /*---(done)-----------------*/
 };
 extern tMY         myCMD;
@@ -143,9 +232,13 @@ extern tMY         myCMD;
 extern char g_print     [LEN_RECD];
 
 
+
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 /*---(base)-----------------*/
 char        ycmd__purge             (void);
+char        ycmd_mute               (void);
+char        ycmd_unmute             (void);
+char        ycmd_urgent             (char *a_name, char a_on);
 
 
 
@@ -194,12 +287,59 @@ char        ycmd_parse              (uchar *a_str);
 
 /*===[[ yCMD_exec.c ]]========================================================*/
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+char        ycmd__unit_stub         (void);
 char        ycmd__unit_parrot       (char a_value);
 char        ycmd__unit_length       (char *a_string);
 char        ycmd__unit_tester       (char a_mode, char a_value);
 
 
 char        ycmd_dump               (FILE *f);
+
+
+
+/*===[[ yCMD_exec.c ]]========================================================*/
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
+/*---(support)--------------*/
+char        ycmd__menu_fix_path     (uchar *a_path, int *a_len, uchar *a_fixed);
+/*---(memory)---------------*/
+char        ycmd__menu_newlink      (tMENU *a_menu);
+char        ycmd__menu_new          (uchar *a_path, char *a_name, char *a_keys);
+/*---(actions)--------------*/
+int         ycmd__menu_action       (uchar *a_path, int a_max, int a_lvl, tMLINK *a_parent, char a_act, tMLINK *a_new);
+int         ycmd_menu_action        (char a_act, uchar *a_path, tMLINK *a_link);
+char        ycmd_menu_place         (tMLINK *a_new);
+int         ycmd_menu_delete        (uchar *a_path);
+int         ycmd_menu_find          (uchar *a_path);
+int         ycmd_menu_menu          (uchar *a_path);
+int         yCMD_menu_active        (uchar *a_path);
+int         yCMD_menu_grey          (uchar *a_path);
+int         yCMD_menu_hide          (uchar *a_path);
+/*---(program)--------------*/
+char        ycmd__menu_purge        (void);
+char        yCMD_menu_config        (char a_layout);
+char        ycmd_menu_init          (void);
+/*---(base)-----------------*/
+char        ycmd__menu_in_base      (uchar *a_path);
+char        ycmd__menu_base_num     (int n);
+char        ycmd__menu_base_path    (uchar *a_path);
+char        ycmd__menu_base_load    (void);
+/*---(placement)------------*/
+char        ycmd__menu_place_clear  (void);
+char        ycmd__menu_place_round  (void);
+char        ycmd__menu_place_cols   (char a_level, tMLINK *a_curr);
+/*---(update)---------------*/
+char        yCMD_menu_alter         (uchar *a_path, char *a_keys);
+char        yCMD_menu_add           (uchar *a_path, char *a_name, char *a_keys);
+/*---(menu)-----------------*/
+char        ycmd_menu_reanchor      (char a_anchor);
+char        ycmd_menu_final         (void);
+/*---(mode)-----------------*/
+char        ycmd_menu_start         (void);
+char        ycmd_menu_smode         (uchar a_major, uchar a_minor);
+/*---(done)-----------------*/
+
+char*       ycmd_menu_counts        (void);
+char*       ycmd_menu_by_index      (int n);
 
 
 
