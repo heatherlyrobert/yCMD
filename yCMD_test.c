@@ -57,6 +57,7 @@ ycmd__unit_loud         (void)
    yURG_name  ("ysrc"         , YURG_ON);
    yURG_name  ("ymap"         , YURG_ON);
    yURG_name  ("ykeys"        , YURG_ON);
+   yURG_name  ("ymacro"       , YURG_ON);
    DEBUG_YCMD  yLOG_info     ("yCMD"      , yCMD_version   ());
    yMODE_init (MODE_MAP);
    yMODE_init_after ();

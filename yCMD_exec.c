@@ -171,6 +171,7 @@ ycmd_parse              (uchar *a_str)
    int         x_len       = 0;
    int         x_len2      = 0;
    int         i           = 0;
+   char        x_quoted    = '-';
    /*---(header)-------------------------*/
    DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
    /*---(default)------------------------*/
@@ -194,8 +195,23 @@ ycmd_parse              (uchar *a_str)
    x_len    = strllen (x_work, LEN_RECD);
    DEBUG_YCMD   yLOG_value   ("x_len"     , x_len);
    strldchg    (x_work, G_CHAR_STORAGE, G_KEY_SPACE, LEN_RECD);
-   strlrequote (x_work, LEN_RECD);
+   strltrim    (x_work, ySTR_BOTH, LEN_RECD);
    DEBUG_YCMD   yLOG_info    ("x_work"    , x_work);
+   /*---(handle p_all)-------------------*/
+   p = strchr (x_work, ' ');
+   DEBUG_YCMD   yLOG_point   ("p"         , p);
+   if (p != NULL) {
+      strlcpy     (t, p + 1, LEN_RECD);
+      DEBUG_YCMD   yLOG_info    ("copy"      , t);
+      strltrim    (t, ySTR_BOTH, LEN_RECD);
+      DEBUG_YCMD   yLOG_info    ("trim"      , t);
+      strldequote (t, LEN_RECD);
+      DEBUG_YCMD   yLOG_info    ("dequote"   , t);
+      strlcpy     (myCMD.p_all, t, LEN_RECD);
+   }
+   DEBUG_YCMD   yLOG_info    ("p_all"     , myCMD.p_all);
+   /*---(prepare)------------------------*/
+   strlrequote (x_work, LEN_RECD);
    /*---(parse command)------------------*/
    p     = strtok_r (x_work, q, &r);
    DEBUG_YCMD   yLOG_point   ("p"         , p);
@@ -205,14 +221,6 @@ ycmd_parse              (uchar *a_str)
    }
    strlcpy  (myCMD.p_fields [0], p, LEN_DESC);
    DEBUG_YCMD   yLOG_info    ("p_cmd"     , p);
-   /*---(parse all)----------------------*/
-   x_len2 = strllen (myCMD.p_fields [0], LEN_RECD);
-   DEBUG_YCMD   yLOG_value   ("x_len2"    , x_len2);
-   if (x_len > x_len2) {
-      strlcpy     (myCMD.p_all, p + x_len2 + 1, LEN_RECD);
-      strltrim    (myCMD.p_all, ySTR_BOTH, LEN_RECD);
-   }
-   DEBUG_YCMD   yLOG_info    ("p_all"     , myCMD.p_all);
    /*---(parse)--------------------------*/
    for (i = 1; i < 10; ++i) {
       p = strtok_r (NULL  , q, &r);
