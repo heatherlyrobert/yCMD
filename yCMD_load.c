@@ -62,6 +62,7 @@ static const tCMDS  s_bases     [] = {
    { 'b', 'r', "flatten"         , ""    , yMACRO_flatten            , "cc"   , ""                                                            },
    { 'b', 'r', "install"         , ""    , yMACRO_install            , "c"    , ""                                                            },
    { 'b', 'r', "agrios"          , ""    , yMACRO_agrios_start       , "a"    , "direct definition of a keyboard macro"                       },
+   { 'b', 'r', "dagrios"         , ""    , yMACRO_agrios_playback    , "a"    , "direct definition of a keyboard macro"                       },
    /*---(yCOLOR)------------------------------------------------------------------------------------------------------------------------------*/
    { 'b', 'v', "palette"         , ""    , yCOLOR_palette            , "isss" , ""                                                            },
    { 'b', 'v', "wheel"           , ""    , yCOLOR_wheel              , "s"    , ""                                                            },

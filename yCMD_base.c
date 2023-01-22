@@ -113,14 +113,14 @@ ycmd_mute               (void)
    DEBUG_ANY   yLOG_note    (":mute¦ (ycmd_mute) muted/quiet logging output");
    yLOG_break   ();
    yLOGS_mute   ();
-   yURG_name    ("mute", 'y');
+   yURG_by_name    ("mute", 'y');
    return 0;
 }
 
 char
 ycmd_unmute             (void)
 {
-   yURG_name    ("mute", '-');
+   yURG_by_name    ("mute", '-');
    yLOGS_unmute ();
    yLOG_break   ();
    DEBUG_ANY   yLOG_note    (":unmute¦ (ycmd_unmute) unmuted/loud logging output");
@@ -137,7 +137,7 @@ ycmd_urgent             (char *a_name, char a_on)
    --rce;  if (strchr ("-yY", a_on) == NULL)  return rce;
    DEBUG_ANY   yLOG_note    (":urgent¦ (ycmd_urgent) called to control an urgent");
    DEBUG_ANY   yLOG_char    (a_name    , a_on);
-   yURG_name (a_name, a_on);
+   yURG_by_name (a_name, a_on);
    yURG_summ ();
    return 0;
 }
