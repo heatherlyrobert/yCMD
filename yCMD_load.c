@@ -64,12 +64,12 @@ static const tCMDS  s_bases     [] = {
    { 'b', 'r', "agrios"          , ""    , yMACRO_agrios_start       , "a"    , "direct definition of a keyboard macro"                       },
    { 'b', 'r', "dagrios"         , ""    , yMACRO_agrios_playback    , "a"    , "direct definition of a keyboard macro"                       },
    /*---(yCOLOR)------------------------------------------------------------------------------------------------------------------------------*/
-   { 'b', 'v', "palette"         , ""    , yCOLOR_palette            , "isss" , ""                                                            },
-   { 'b', 'v', "wheel"           , ""    , yCOLOR_wheel              , "s"    , ""                                                            },
-   { 'b', 'v', "degree"          , "deg" , yCOLOR_deg                , "i"    , ""                                                            },
-   { 'b', 'v', "harmony"         , "har" , yCOLOR_harm               , "s"    , ""                                                            },
-   { 'b', 'v', "value"           , "val" , yCOLOR_val                , "s"    , ""                                                            },
-   { 'b', 'v', "saturation"      , "sat" , yCOLOR_sat                , "s"    , ""                                                            },
+   /*> { 'b', 'v', "palette"         , ""    , yCOLOR_palette            , "isss" , ""                                                            },   <*/
+   /*> { 'b', 'v', "wheel"           , ""    , yCOLOR_wheel              , "s"    , ""                                                            },   <*/
+   /*> { 'b', 'v', "degree"          , "deg" , yCOLOR_deg                , "i"    , ""                                                            },   <*/
+   /*> { 'b', 'v', "harmony"         , "har" , yCOLOR_harm               , "s"    , ""                                                            },   <*/
+   /*> { 'b', 'v', "value"           , "val" , yCOLOR_val                , "s"    , ""                                                            },   <*/
+   /*> { 'b', 'v', "saturation"      , "sat" , yCOLOR_sat                , "s"    , ""                                                            },   <*/
    /*---(yVIEW)-------------------------------------------------------------------------------------------------------------------------------*/
    { 'b', 'v', "layout"          , ""    , yVIEW_layout              , "s"    , ""                                                            },
    { 'b', 'v', "title"           , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },

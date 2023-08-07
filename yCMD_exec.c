@@ -350,6 +350,20 @@ yCMD_exec               (uchar *a_command, char *a_rc)
       DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
       return 1;
    }
+   /*---(look for yMACRO/agrios)--------*/
+   if (strchr ("@Æ†⁄ÿ€Ÿè", a_command [1]) != NULL) {
+      if (a_command [1] == '@') {
+         DEBUG_YCMD   yLOG_note    ("script execution");
+         yMACRO_script_start  (a_command + 2);
+         DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
+         return 1;
+      } else {
+         DEBUG_YCMD   yLOG_note    ("agrios command");
+         yMACRO_agrios_direct (a_command [1], a_command + 1);
+         DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
+         return 1;
+      }
+   }
    /*---(parse)-------------------------*/
    rc = ycmd_parse (a_command);
    DEBUG_YCMD   yLOG_value   ("parse"     , rc);

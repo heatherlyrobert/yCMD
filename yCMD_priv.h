@@ -36,8 +36,8 @@
 
 #define     P_VERMAJOR  "2.--, clean, improve, and expand"
 #define     P_VERMINOR  "2.0-, separated into independent library"
-#define     P_VERNUM    "2.0i"
-#define     P_VERTXT    "updated to yURG_by_name after yURG change"
+#define     P_VERNUM    "2.0j"
+#define     P_VERTXT    "solved an opengl requirement in curses environment issue"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -62,7 +62,6 @@
 #include    <yVIEW.h>             /* heatherly vi-keys view management        */
 #include    <yFILE.h>             /* heatherly vi-keys content file handling  */
 #include    <yPARSE.h>
-#include    <yCOLOR.h>            /* heatherly opengl color handling          */
 
 
 #define     CMDS_BASE        'b'  /* fully standard in base           */
