@@ -74,7 +74,7 @@ static const tCMDS  s_bases     [] = {
    { 'b', 'v', "layout"          , ""    , yVIEW_layout              , "s"    , ""                                                            },
    { 'b', 'v', "title"           , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
    { 'b', 'v', "version"         , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
-   { 'b', 'v', "buffer"          , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
+   { 'b', 'v', "universe"        , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
    { 'b', 'v', "formula"         , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
    { 'b', 'v', "nav"             , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },
    { 'b', 'v', "xaxis"           , ""    , yVIEW_switch              , "Cs"   , "allow control of individual sceen elements"                  },

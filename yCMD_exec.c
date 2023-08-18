@@ -340,6 +340,8 @@ yCMD_exec               (uchar *a_command, char *a_rc)
       rc = system (x_cmd);
       DEBUG_YCMD   yLOG_value   ("system"    , rc);
       if (a_rc != NULL)  *a_rc = rc;
+      rc = yVIHUB_yVIEW_history (MODE_COMMAND, a_command);
+      DEBUG_YCMD   yLOG_value   ("history"   , rc);
       DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
       return 1;
    }
@@ -364,8 +366,21 @@ yCMD_exec               (uchar *a_command, char *a_rc)
          return 1;
       }
    }
+   /*---(look for history)--------------*/
+   strlcpy (x_cmd, a_command, LEN_RECD);
+   if (strncmp (x_cmd, "::", 2) == 0) {
+      DEBUG_YCMD   yLOG_note    ("this is a history request");
+      rc = yVIHUB_yVIEW_direct  (x_cmd);
+      DEBUG_YCMD   yLOG_value   ("direct"    , rc);
+      if (rc < 1) {
+         DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
+         return rc;
+      }
+      DEBUG_YCMD   yLOG_info    ("after"     , x_cmd);
+   }
    /*---(parse)-------------------------*/
-   rc = ycmd_parse (a_command);
+   if (x_cmd [1] == ':')  rc = ycmd_parse (x_cmd + 1);
+   else                   rc = ycmd_parse (x_cmd);
    DEBUG_YCMD   yLOG_value   ("parse"     , rc);
    --rce;  if (rc < 0) {
       DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
@@ -387,6 +402,9 @@ yCMD_exec               (uchar *a_command, char *a_rc)
    }
    DEBUG_YCMD   yLOG_value   ("return"    , x_rc);
    if (a_rc != NULL)  *a_rc = x_rc;
+   /*---(history)------------------------*/
+   rc = yVIHUB_yVIEW_history (MODE_COMMAND, x_cmd);
+   DEBUG_YCMD   yLOG_value   ("history"   , rc);
    /*---(complete)-----------------------*/
    DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
    return 1;
