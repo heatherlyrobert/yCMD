@@ -72,8 +72,8 @@ ycmd_terms_init         (void)
       ++s_nterm;
    }
    /*---(parsing)------------------------*/
-   for (i = 0; i < 10; ++i)  strlcpy (myCMD.p_fields [i], "", LEN_RECD);
-   strlcpy (myCMD.p_all    , "", LEN_RECD);
+   for (i = 0; i < 10; ++i)  ystrlcpy (myCMD.p_fields [i], "", LEN_RECD);
+   ystrlcpy (myCMD.p_all    , "", LEN_RECD);
    /*---(complete)-----------------------*/
    DEBUG_YCMD   yLOG_exit    (__FUNCTION__);
    return 0;

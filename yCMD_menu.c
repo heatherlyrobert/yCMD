@@ -583,7 +583,7 @@ ycmd__menu_fix_path       (uchar *a_path, int *a_len, uchar *a_fixed)
    DEBUG_YCMD   yLOG_senter  (__FUNCTION__);
    /*---(prepare)------------------------*/
    if (a_len   != NULL)   *a_len = 0;
-   if (a_fixed != NULL)   strlcpy (a_fixed, "", LEN_LABEL);
+   if (a_fixed != NULL)   ystrlcpy (a_fixed, "", LEN_LABEL);
    /*---(defense)------------------------*/
    DEBUG_YCMD   yLOG_spoint  (a_path);
    --rce;  if (a_path == NULL) {
@@ -596,7 +596,7 @@ ycmd__menu_fix_path       (uchar *a_path, int *a_len, uchar *a_fixed)
    if (strcmp (a_path, x_save) == 0) {
       DEBUG_YCMD   yLOG_snote   ("short-cut invoked");
       if (a_len   != NULL)   *a_len = x_len;
-      if (a_fixed != NULL)   strlcpy (a_fixed, x_path, LEN_LABEL);
+      if (a_fixed != NULL)   ystrlcpy (a_fixed, x_path, LEN_LABEL);
       DEBUG_YCMD   yLOG_sexit   (__FUNCTION__);
       return 1;
    }
@@ -657,9 +657,9 @@ ycmd__menu_fix_path       (uchar *a_path, int *a_len, uchar *a_fixed)
    if (x_path [2] == G_CHAR_SPACE)  --x_len;
    if (x_path [1] == G_CHAR_SPACE)  --x_len;
    /*---(prepare)------------------------*/
-   strlcpy (x_save, a_path, LEN_LABEL);
+   ystrlcpy (x_save, a_path, LEN_LABEL);
    if (a_len   != NULL)   *a_len = x_len;
-   if (a_fixed != NULL)   strlcpy (a_fixed, x_path, LEN_LABEL);
+   if (a_fixed != NULL)   ystrlcpy (a_fixed, x_path, LEN_LABEL);
    /*---(complete)-----------------------*/
    DEBUG_YCMD   yLOG_sexit   (__FUNCTION__);
    return 0;
@@ -817,9 +817,9 @@ ycmd__menu_new          (uchar *a_path, char *a_name, char *a_keys)
    x_new->top      = a_path [1];
    x_new->mid      = a_path [2];
    x_new->bot      = a_path [3];
-   strlcpy (x_new->name, a_name, LEN_LABEL);
+   ystrlcpy (x_new->name, a_name, LEN_LABEL);
    x_new->active   = MENU_ACTIVE;
-   strlcpy (x_new->keys, a_keys, LEN_TITLE );
+   ystrlcpy (x_new->keys, a_keys, LEN_TITLE );
    /*---(typing)-------------------------*/
    x_len = strlen (a_keys);
    if      (a_keys [x_len - 1] == G_CHAR_RETURN) x_new->type   = MENU_EXACT;
@@ -1646,10 +1646,10 @@ yCMD_menu_overall       (char *l, char *b, char *t)
          case  2  :  sprintf (b, "%c%c", myCMD.m_found->data->top, myCMD.m_found->data->mid);  break;
          }
       } else {
-         strlcpy (b, myCMD.m_path + 1, LEN_TERSE);
+         ystrlcpy (b, myCMD.m_path + 1, LEN_TERSE);
       }
    }
-   if (t   != NULL)  strlcpy (t, myCMD.m_found->data->name, LEN_LABEL);
+   if (t   != NULL)  ystrlcpy (t, myCMD.m_found->data->name, LEN_LABEL);
    return 0;
 }
 
@@ -1674,18 +1674,18 @@ yCMD_menu_data          (char n, short *x, short *y, char *b, short *xo, short *
    if (myCMD.m_level > 0) {
       switch (myCMD.m_places [n].item->data->type) {
       case MENU_GROUP  :
-         strlcat (x_name, "+", LEN_LABEL);
+         ystrlcat (x_name, "+", LEN_LABEL);
          break;
       case MENU_SINGLE : case MENU_DOUBLE : case MENU_TRIPLE :
-         strlcat (x_name, "+", LEN_LABEL);
+         ystrlcat (x_name, "+", LEN_LABEL);
          break;
       case MENU_MORE   :
-         strlcat (x_name, "=", LEN_LABEL);
+         ystrlcat (x_name, "=", LEN_LABEL);
          break;
       }
    }
    if (l   != NULL)  *l = strlen (x_name);
-   if (t   != NULL)  strlcpy (t, x_name, LEN_LABEL);
+   if (t   != NULL)  ystrlcpy (t, x_name, LEN_LABEL);
    if (a   != NULL)  *a = myCMD.m_places [n].align;
    if (v   != NULL)  *v = myCMD.m_places [n].item->active;
    return 0;
@@ -1742,7 +1742,7 @@ yVIKEYS_menu_alter      (uchar *a_path, char *a_keys)
     *>    DEBUG_CMDS   yLOG_exitr   (__FUNCTION__, rce);                                        <* 
     *>    return rce;                                                                           <* 
     *> }                                                                                        <* 
-    *> strlcpy (x_path, a_path, LEN_LABEL);                                                     <* 
+    *> ystrlcpy (x_path, a_path, LEN_LABEL);                                                     <* 
     *> /+> n = yvikeys_menu_find (x_path, &x_level, &x_last);                             <+/   <* 
     *> DEBUG_CMDS   yLOG_value   ("find"      , n);                                             <* 
     *> --rce;  if (n < 0) {                                                                     <* 
@@ -1756,13 +1756,13 @@ yVIKEYS_menu_alter      (uchar *a_path, char *a_keys)
     *>       return rce;                                                                        <* 
     *>    }                                                                                     <* 
     *>    s_base [n].type   = MENU_GROUP;                                                       <* 
-    *>    strlcpy (s_base [n].keys, "-", LEN_TITLE );                                            <* 
+    *>    ystrlcpy (s_base [n].keys, "-", LEN_TITLE );                                            <* 
     *>    s_base [n].active = MENU_ACTIVE;                                                      <* 
     *> }                                                                                        <* 
     *> /+---(if making a executable)---------+/                                                 <* 
     *> else {                                                                                   <* 
     *>    s_base [n].type   = '·';                                                              <* 
-    *>    strlcpy (s_base [n].keys, a_keys, LEN_TITLE );                                         <* 
+    *>    ystrlcpy (s_base [n].keys, a_keys, LEN_TITLE );                                         <* 
     *>    if (x_level == 2) {                                                                   <* 
     *>       s_base [n].active = MENU_ACTIVE;                                                   <* 
     *>       i = s_base [n].start;                                                              <* 
@@ -1851,8 +1851,8 @@ ycmd_menu_start         (void)
 {
    int         n           =    0;
    DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
-   strlcpy (myCMD.m_path, "\\", LEN_LABEL);
-   strlcpy (myCMD.m_keys, ""  , LEN_TITLE );
+   ystrlcpy (myCMD.m_path, "\\", LEN_LABEL);
+   ystrlcpy (myCMD.m_keys, ""  , LEN_TITLE );
    n = ycmd_menu_find (myCMD.m_path);
    DEBUG_YCMD   yLOG_value   ("current"   , n);
    ycmd__menu_place_round ();
@@ -1905,18 +1905,18 @@ ycmd_menu_smode         (uchar a_major, uchar a_minor)
       return 0;
    }
    /*---(add to menu)--------------------*/
-   strlcpy (x_lastp, myCMD.m_path, LEN_LABEL);
+   ystrlcpy (x_lastp, myCMD.m_path, LEN_LABEL);
    x_found = myCMD.m_found;
    x_lastl = myCMD.m_level;
    sprintf (t, "%c", a_minor);
-   strlcat (myCMD.m_path, t, LEN_LABEL);
+   ystrlcat (myCMD.m_path, t, LEN_LABEL);
    DEBUG_YCMD   yLOG_info    ("m_path"    , myCMD.m_path);
    /*---(find path)----------------------*/
    n = ycmd_menu_find (myCMD.m_path);
    DEBUG_YCMD   yLOG_value   ("n"         , n);
    --rce;  if (n <= 0) {
       DEBUG_YCMD   yLOG_note    ("menu failed to match, locked now");
-      /*> strlcpy (myCMD.m_path, x_lastp, LEN_LABEL);                                 <*/
+      /*> ystrlcpy (myCMD.m_path, x_lastp, LEN_LABEL);                                 <*/
       myCMD.m_found = x_found;
       myCMD.m_level = x_lastl;
       yKEYS_set_lock ();
@@ -1943,7 +1943,7 @@ ycmd_menu_smode         (uchar a_major, uchar a_minor)
          }
          /*> SOURCE_menu_prep ();                                                     <*/
          /*> ySRC_start ("µ");                                                        <*/
-         strlcpy (myCMD.m_keys, myCMD.m_found->data->keys, LEN_TITLE);
+         ystrlcpy (myCMD.m_keys, myCMD.m_found->data->keys, LEN_TITLE);
          DEBUG_YCMD   yLOG_info    ("m_keys"    , myCMD.m_keys);
          yMACRO_menu_beg ();
          yKEYS_logging_off ();

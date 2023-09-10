@@ -176,8 +176,8 @@ ycmd_parse              (uchar *a_str)
    DEBUG_YCMD   yLOG_enter   (__FUNCTION__);
    /*---(default)------------------------*/
    myCMD.p_nfield = 0;
-   for (i = 0; i < 10; ++i)  strlcpy (myCMD.p_fields [i], "", LEN_RECD);
-   strlcpy  (myCMD.p_all, "", LEN_RECD);
+   for (i = 0; i < 10; ++i)  ystrlcpy (myCMD.p_fields [i], "", LEN_RECD);
+   ystrlcpy  (myCMD.p_all, "", LEN_RECD);
    /*---(defense)------------------------*/
    DEBUG_YCMD   yLOG_point   ("a_str"     , a_str);
    --rce;  if (a_str == NULL) {
@@ -191,27 +191,27 @@ ycmd_parse              (uchar *a_str)
       return rce;
    }
    /*---(prepare)------------------------*/
-   strlcpy  (x_work, a_str + 1, LEN_RECD);
-   x_len    = strllen (x_work, LEN_RECD);
+   ystrlcpy  (x_work, a_str + 1, LEN_RECD);
+   x_len    = ystrllen (x_work, LEN_RECD);
    DEBUG_YCMD   yLOG_value   ("x_len"     , x_len);
-   strldchg    (x_work, G_CHAR_STORAGE, G_KEY_SPACE, LEN_RECD);
-   strltrim    (x_work, ySTR_BOTH, LEN_RECD);
+   ystrldchg    (x_work, G_CHAR_STORAGE, G_KEY_SPACE, LEN_RECD);
+   ystrltrim    (x_work, ySTR_BOTH, LEN_RECD);
    DEBUG_YCMD   yLOG_info    ("x_work"    , x_work);
    /*---(handle p_all)-------------------*/
    p = strchr (x_work, ' ');
    DEBUG_YCMD   yLOG_point   ("p"         , p);
    if (p != NULL) {
-      strlcpy     (t, p + 1, LEN_RECD);
+      ystrlcpy     (t, p + 1, LEN_RECD);
       DEBUG_YCMD   yLOG_info    ("copy"      , t);
-      strltrim    (t, ySTR_BOTH, LEN_RECD);
+      ystrltrim    (t, ySTR_BOTH, LEN_RECD);
       DEBUG_YCMD   yLOG_info    ("trim"      , t);
-      strldequote (t, LEN_RECD);
+      ystrldequote (t, LEN_RECD);
       DEBUG_YCMD   yLOG_info    ("dequote"   , t);
-      strlcpy     (myCMD.p_all, t, LEN_RECD);
+      ystrlcpy     (myCMD.p_all, t, LEN_RECD);
    }
    DEBUG_YCMD   yLOG_info    ("p_all"     , myCMD.p_all);
    /*---(prepare)------------------------*/
-   strlrequote (x_work, LEN_RECD);
+   ystrlrequote (x_work, LEN_RECD);
    /*---(parse command)------------------*/
    p     = strtok_r (x_work, q, &r);
    DEBUG_YCMD   yLOG_point   ("p"         , p);
@@ -219,7 +219,7 @@ ycmd_parse              (uchar *a_str)
       DEBUG_YCMD   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
-   strlcpy  (myCMD.p_fields [0], p, LEN_DESC);
+   ystrlcpy  (myCMD.p_fields [0], p, LEN_DESC);
    DEBUG_YCMD   yLOG_info    ("p_cmd"     , p);
    /*---(parse)--------------------------*/
    for (i = 1; i < 10; ++i) {
@@ -227,9 +227,9 @@ ycmd_parse              (uchar *a_str)
       if (p == NULL)  break;
       DEBUG_YCMD   yLOG_value   ("i"         , i);
       DEBUG_YCMD   yLOG_info    ("p"         , p);
-      strlcpy  (myCMD.p_fields [i], p, LEN_RECD);
-      strltrim (myCMD.p_fields [i], ySTR_BOTH, LEN_RECD);
-      strldchg (myCMD.p_fields [i], '¤', ' ', LEN_RECD);
+      ystrlcpy  (myCMD.p_fields [i], p, LEN_RECD);
+      ystrltrim (myCMD.p_fields [i], ySTR_BOTH, LEN_RECD);
+      ystrldchg (myCMD.p_fields [i], '¤', ' ', LEN_RECD);
       myCMD.p_nfield = i;
    }
    /*---(complete)-----------------------*/
@@ -333,9 +333,9 @@ yCMD_exec               (uchar *a_command, char *a_rc)
    /*---(look for system)---------------*/
    if (strncmp (a_command, ":!", 2) == 0) {
       DEBUG_YCMD   yLOG_note    ("this is a direct run");
-      strlcpy (x_cmd, a_command + 2, LEN_RECD);
-      strldecode  (x_cmd, LEN_RECD);
-      strlunstore (x_cmd, LEN_RECD);
+      ystrlcpy (x_cmd, a_command + 2, LEN_RECD);
+      ystrldecode  (x_cmd, LEN_RECD);
+      ystrlunstore (x_cmd, LEN_RECD);
       DEBUG_YCMD   yLOG_info    ("x_cmd"     , x_cmd);
       rc = system (x_cmd);
       DEBUG_YCMD   yLOG_value   ("system"    , rc);
@@ -367,7 +367,7 @@ yCMD_exec               (uchar *a_command, char *a_rc)
       }
    }
    /*---(look for history)--------------*/
-   strlcpy (x_cmd, a_command, LEN_RECD);
+   ystrlcpy (x_cmd, a_command, LEN_RECD);
    if (strncmp (x_cmd, "::", 2) == 0) {
       DEBUG_YCMD   yLOG_note    ("this is a history request");
       rc = yVIHUB_yVIEW_direct  (x_cmd);

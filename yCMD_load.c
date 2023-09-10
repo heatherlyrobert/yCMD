@@ -389,12 +389,12 @@ ycmd_new_cmd            (uchar a_menu, uchar *a_name, uchar *a_abbr, uchar *a_te
    DEBUG_YCMD   yLOG_note    ("populate");
    x_new->base     = CMDS_CUST;
    x_new->menu     = a_menu;
-   strlcpy (x_new->name , a_name , LEN_LABEL);
-   strlcpy (x_new->abbr , a_abbr , LEN_TERSE);
+   ystrlcpy (x_new->name , a_name , LEN_LABEL);
+   ystrlcpy (x_new->abbr , a_abbr , LEN_TERSE);
    x_new->f.v      = a_func;
-   strlcpy (x_new->terms, a_terms, LEN_TERSE);
-   if (a_desc != NULL)  strlcpy (x_new->desc , a_desc , LEN_DESC );
-   else                 strlcpy (x_new->desc , ""     , LEN_DESC );
+   ystrlcpy (x_new->terms, a_terms, LEN_TERSE);
+   if (a_desc != NULL)  ystrlcpy (x_new->desc , a_desc , LEN_DESC );
+   else                 ystrlcpy (x_new->desc , ""     , LEN_DESC );
    /*---(save back)----------------------*/
    *r_cmds = x_new;
    /*---(complete)-----------------------*/

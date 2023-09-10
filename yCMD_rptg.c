@@ -45,7 +45,7 @@ ycmd_menu_line          (tMLINK *a_curr, char *a_line)
    if (a_curr == NULL)  return -1;
    if (a_curr->data == NULL)  return -1;
    p = a_curr->data;
-   strlpadn (a_curr->c_count, x_count, '.', '>', 3);
+   ystrlpadn (a_curr->c_count, x_count, '.', '>', 3);
    sprintf (x_keys, "%2då%.25sæ", strlen (p->keys), p->keys);
    sprintf (a_line, "%c %c %c %c %-10.10s %c %c %c  %-29.29s  %c  %c  %s",
          p->base, p->top, p->mid, p->bot,
